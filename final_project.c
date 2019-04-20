@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 
 	// Use alpha = 5% by default
 	if (argc == 7) {
-		alpha = atof(argv[6]);	
+		alpha = atof(argv[6]);
 	} else {
 		alpha = 0.05;
 	}
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	level = 1 - alpha; 
+	level = 1 - alpha;
 
 	a = atoi(argv[1]);
 	b = atoi(argv[2]);
