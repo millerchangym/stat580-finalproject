@@ -8,17 +8,28 @@ int main(int argc, char *argv[])
 {
 	// if the number of parameters is less than 5 (i.e., less than just the file name of the .exe and 4 numbers),
 	// return error
-	if (argc < 5 || argc == 6 || argc > 7) {
+	if (argc < 5 || argc > 7) {
 		printf("Please input a 2-by-2 matrix of counts in the form a b c d in row-major order, \n");
 		printf("with optional switch -alpha e, e a number between 0 and 1 exclusive.\n");
 		exit(1);
 	}
 
+	// check for use of the correct switch
 	if (strcmp(argv[5], "-alpha") != 0) {
 		printf("The switch you used is incorrect.\n");
 		printf("Use the correct switch -alpha e, with e a number between 0 and 1 exclusive.\n");
 		exit(1);
 	}
+
+	// check for numeric matrix counts
+	if (!stringNumericCheck(argv[1]) ||
+                !stringNumericCheck(argv[2]) ||
+                        !stringNumericCheck(argv[3]) ||
+                                !stringNumericCheck(argv[4])) {
+                printf("Please use numeric inputs for the four matrix components.\n");
+                exit(1);
+
+        };
 
 	// alpha and level for confidence interval
 	float alpha, level;
@@ -39,15 +50,6 @@ int main(int argc, char *argv[])
 	}
 
 	level = 1 - alpha; 
-
-	if (!stringNumericCheck(argv[1]) ||
-		!stringNumericCheck(argv[2]) ||
-			!stringNumericCheck(argv[3]) || 
-				!stringNumericCheck(argv[4])) {
-		printf("Please use numeric inputs for the four matrix components.\n");
-		exit(1);
-
-	};
 
 	a = atoi(argv[1]);
 	b = atoi(argv[2]);
