@@ -25,14 +25,15 @@ int main(int argc, char *argv[])
 
         };
 
-	// check for use of the correct switch after the numeric counts
 	if (argc == 7) {
+		// check for use of the correct switch after the numeric counts
 		if (strcmp(argv[5], "-alpha") != 0) {
 			printf("The switch you used is incorrect.\n");
 			printf("Use the correct switch -alpha e, with e a number between 0 and 1 exclusive.\n");
 			exit(1);
 		}
 
+		// check for a numeric alpha value
 		if(!stringNumericCheck(argv[6])) {
 			printf("Please use a numeric value for the alpha.\n");
 			exit(1);
