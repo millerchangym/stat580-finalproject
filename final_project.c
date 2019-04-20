@@ -43,6 +43,8 @@ int main(int argc, char *argv[])
 	float alpha, level;
 	// input: four components of a 2 x 2 contingency table, in row-major order
 	int a, b, c, d;
+	int n_1plus, n_2plus, n_plus1, n_plus2;
+	int n;
 
 	// Use alpha = 5% by default
 	if (argc == 7) {
@@ -68,6 +70,14 @@ int main(int argc, char *argv[])
 		printf("The integer inputs must all be positive.\n");
 		exit(1);
 	}
+
+	// Row and column totals
+	n_1plus = a + c;
+	n_2plus = b + d;
+	n_plus1 = a + b;
+	n_plus2 = c + d;
+
+	n = a + b + c + d;
 
 	return 0;
 }
