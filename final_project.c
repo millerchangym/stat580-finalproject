@@ -1,7 +1,7 @@
 #include "final_project.h"
 
 //compile as
-//gcc -o final_project final_project.c -pedantic -Wall -lm
+//gcc -o final_project final_project.c functions.c -pedantic -Wall -lm
 //run as ./final_project a b c d -alpha e, where a, b, c, and d are integers, and e is a float
 
 int main(int argc, char *argv[])
