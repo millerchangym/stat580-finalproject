@@ -80,6 +80,8 @@ int main(int argc, char *argv[])
 
 	n = a + b + c + d;
 
+	printf("%d\n", binom(5, 2));
+
 	return 0;
 }
 
