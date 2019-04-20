@@ -1,3 +1,5 @@
+#include "final_project.h"
+
 int stringNumericCheck (char *str) {
         int i = 0;
         int notNumericCount = 0;
