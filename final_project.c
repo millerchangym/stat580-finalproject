@@ -11,18 +11,12 @@ int main(int argc, char *argv[])
 	if (argc < 5 || argc > 7) {
 		printf("Please input a 2-by-2 matrix of counts in the form a b c d in row-major order, \n");
 		printf("with optional switch -alpha e, e a number between 0 and 1 exclusive.\n");
-		exit(1);
-	}
-
-	// check for use of the correct switch
-	if (strcmp(argv[5], "-alpha") != 0) {
-		printf("The switch you used is incorrect.\n");
-		printf("Use the correct switch -alpha e, with e a number between 0 and 1 exclusive.\n");
+		printf("Note that e is set to 0.05 by default.");
 		exit(1);
 	}
 
 	// check for numeric matrix counts
-	if (!stringNumericCheck(argv[1]) ||
+        if (!stringNumericCheck(argv[1]) ||
                 !stringNumericCheck(argv[2]) ||
                         !stringNumericCheck(argv[3]) ||
                                 !stringNumericCheck(argv[4])) {
@@ -30,6 +24,20 @@ int main(int argc, char *argv[])
                 exit(1);
 
         };
+
+	// check for use of the correct switch after the numeric counts
+	if (argc == 7) {
+		if (strcmp(argv[5], "-alpha") != 0) {
+			printf("The switch you used is incorrect.\n");
+			printf("Use the correct switch -alpha e, with e a number between 0 and 1 exclusive.\n");
+			exit(1);
+		}
+
+		if(!stringNumericCheck(argv[6])) {
+			printf("Please use a numeric value for the alpha.\n");
+			exit(1);
+		}
+	}
 
 	// alpha and level for confidence interval
 	float alpha, level;
