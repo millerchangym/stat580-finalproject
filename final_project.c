@@ -199,9 +199,27 @@ int main(int argc, char *argv[])
 
 
 	// FREE MEMORY SPACE //
-	FREE_2ARRAY(denom_coeff);
-	FREE_2ARRAY(numer_coeff_lower);
-	FREE_2ARRAY(numer_coeff_upper);
+	for (i = 0; i < n_numer_coeff_lower; i++) {
+		free(numer_coeff_lower[i]);
+		numer_coeff_lower[i] = NULL;
+	}
+	free(numer_coeff_lower);
+	numer_coeff_lower = NULL;
+
+	for (i = 0; i < n_numer_coeff_upper; i++) {
+		free(numer_coeff_upper[i]);
+		numer_coeff_upper[i] = NULL;
+	}
+	free(numer_coeff_upper);
+	numer_coeff_upper = NULL;
+
+	for (i = 0; i < n_denom_coeff; i ++) {
+		free(denom_coeff[i]);
+		denom_coeff[i] = NULL;
+	}
+	free(denom_coeff);
+	denom_coeff = NULL;
+
 	return 0;
 }
 
