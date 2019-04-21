@@ -117,10 +117,10 @@ int main(int argc, char *argv[])
 
 	// note m_minus <= t <= m_plus
 
-	// t >= n_11 for lower
-	n_numer_coeff_lower = m_plus - n_11 + 1;
+	// t >= n_11 for upper
+	n_numer_coeff_upper = m_plus - n_11 + 1;
 	// t <= n_11 for lower
-	n_numer_coeff_upper = n_11 - m_minus + 1;
+	n_numer_coeff_lower = n_11 - m_minus + 1;
 
 	numer_coeff_lower = (unsigned long **)
 				calloc(n_numer_coeff_lower,
@@ -150,9 +150,25 @@ int main(int argc, char *argv[])
 
 	for (i = 0; i < n_numer_coeff_lower; i++) {
 		t = m_minus + i;
-		numer_coeff_lower[i][1] = binom(n_1plus, t) *
-						binom(n - n_1plus, n_plus1, t);
-		numer_coeff_lower[i][2] = t;
+		numer_coeff_lower[i][0] = binom(n_1plus, t) *
+						binom(n - n_1plus, n_plus1 - t);
+		numer_coeff_lower[i][1] = t;
+	}
+
+	for (i = 0; i < n_numer_coeff_upper; i++) {
+		numer_coeff_upper[i] = (unsigned long *)
+			calloc(2, sizeof(unsigned long));
+		if (!numer_coeff_upper[i]) {
+			printf("Calloc for numer_coeff_upper[i] failed !\n");
+			exit(1);
+		}
+	}
+
+	for (i = 0; i < n_numer_coeff_upper; i++) {
+		t = n_11 + i;
+		numer_coeff_upper[i][0] = binom(n_1plus, t) *
+						binom(n - n_1plus, n_plus1 - t);
+		numer_coeff_upper[i][1] = t;
 	}
 
 	/////// POLYNOMIAL DETERMINATION (DENOMINATOR) ///////
@@ -176,15 +192,16 @@ int main(int argc, char *argv[])
 
 	for (i = 0; i < n_denom_coeff; i++) {
 		u = m_minus + i;
-		denom_coeff[i][1] = binom(n_1plus, u) *
+		denom_coeff[i][0] = binom(n_1plus, u) *
 					binom(n - n_1plus, n_plus1 - u);
-		denom_coeff[i][2] = u;
+		denom_coeff[i][1] = u;
 	}
 
 
 	// FREE MEMORY SPACE //
 	FREE_2ARRAY(denom_coeff);
 	FREE_2ARRAY(numer_coeff_lower);
+	FREE_2ARRAY(numer_coeff_upper);
 	return 0;
 }
 
