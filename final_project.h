@@ -47,6 +47,6 @@
 } while (0)
 
 int stringNumericCheck(char *str);
-int binom(int n, int k);
+int unsigned long binom(unsigned long n, unsigned long k);
 
 #endif

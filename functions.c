@@ -11,10 +11,24 @@ int stringNumericCheck(char *str) {
         return !(notNumericCount > 0);
 }
 
-// Recursive formula: https://en.wikipedia.org/wiki/Binomial_coefficient#Recursive_formula
-int binom(int n, int k) {
-	if (n == k || k == 0) {
+// https://en.wikipedia.org/wiki/Binomial_coefficient#Binomial_coefficient_in_programming_languages 
+unsigned long binom(unsigned long n, unsigned long k) {
+	unsigned long c;
+	int i = 0;
+
+	if (k < 0 || k > n)
+		return 0;
+	if (k == 0 || k == n)
 		return 1;
-	}
-	return binom(n-1, k-1) + binom(n-1, k);
+
+	// k = min(k, n-k)
+	k = k * (k < n) + (n - k) * (k >= n);
+
+	c = 1;
+
+	for (i = 0; i < k; i++)
+		c *= (n - i) / (i + 1);
+
+	return c;
+
 }
