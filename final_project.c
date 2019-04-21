@@ -55,6 +55,7 @@ int main(int argc, char *argv[])
 	// input: four components of a 2 x 2 contingency
 	// table, in row-major order
 	int a, b, c, d;
+	int n_11;
 	int n_1plus, n_2plus, n_plus1, n_plus2;
 	int n;
 	int m_plus, m_minus;
@@ -89,6 +90,9 @@ int main(int argc, char *argv[])
 		printf("The integer inputs must all be positive.\n");
 		exit(1);
 	}
+
+	// necessary variables
+	n_11 = a;
 
 	// Row and column totals
 	n_1plus = a + b;
