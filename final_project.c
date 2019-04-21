@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
 	int a, b, c, d;
 	int n_1plus, n_2plus, n_plus1, n_plus2;
 	int n;
+	int m_plus, m_minus;
 
 	// Use alpha = 5% by default
 	if (argc == 7) {
@@ -80,7 +81,8 @@ int main(int argc, char *argv[])
 
 	n = a + b + c + d;
 
-	printf("%ld\n", binom(5, 2));
+	// variables for PMF
+	// m_minus = max(0, n_1plus + n_plus1 - n)
 
 	return 0;
 }

@@ -22,7 +22,7 @@ unsigned long binom(unsigned long n, unsigned long k) {
 		return 1;
 
 	// k = min(k, n-k)
-	k = k * (k < n) + (n - k) * (k >= n);
+	k = min(k, (n - k));
 
 	c = 1;
 
@@ -31,4 +31,12 @@ unsigned long binom(unsigned long n, unsigned long k) {
 
 	return c;
 
+}
+
+int max(int a, int b) {
+	return a * (a >= b) + b * (a < b);
+}
+
+int min(int a, int b) {
+	return a * (a < b) + b * (a >= b);
 }
