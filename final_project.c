@@ -6,6 +6,8 @@
 
 int main(int argc, char *argv[])
 {
+	/////////////////// ERROR CHECKING ///////////////////
+
 	// if the number of parameters is less than 5 (i.e., less than just the file name of the .exe and 4 numbers),
 	// return error
 	if (argc < 5 || argc > 7) {
@@ -39,6 +41,8 @@ int main(int argc, char *argv[])
 			exit(1);
 		}
 	}
+
+	/////////////////// VARIABLE DECLARATION ///////////////////
 
 	// alpha and level for confidence interval
 	float alpha, level;
@@ -93,7 +97,8 @@ int main(int argc, char *argv[])
 	m_minus = max(0, n_1plus + n_plus1 - n);
 	m_plus = min(n_1plus, n_plus1);
 
-	// determine coefficients
+	/////////////////// POLYNOMIAL DETERMINATION (DENOMINATOR) ///////////////////
+
 	n_coeff = m_plus - m_minus + 1;
 	printf("\nNumber of coefficients: %d\n", n_coeff);
 	coeff = (unsigned long **) calloc(n_coeff, sizeof(unsigned long *));
