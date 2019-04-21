@@ -149,12 +149,11 @@ int main(int argc, char *argv[])
 	}
 
 	for (i = 0; i < n_numer_coeff_lower; i++) {
-		t = n_11 + i;
-		numer_coeff_lower[i][1];
+		t = m_minus + i;
+		numer_coeff_lower[i][1] = binom(n_1plus, t) *
+						binom(n - n_1plus, n_plus1, t);
 		numer_coeff_lower[i][2] = t;
 	}
-
-	FREE_2ARRAY(numer_coeff_lower);
 
 	/////// POLYNOMIAL DETERMINATION (DENOMINATOR) ///////
 
@@ -182,8 +181,10 @@ int main(int argc, char *argv[])
 		denom_coeff[i][2] = u;
 	}
 
-	FREE_2ARRAY(denom_coeff);
 
+	// FREE MEMORY SPACE //
+	FREE_2ARRAY(denom_coeff);
+	FREE_2ARRAY(numer_coeff_lower);
 	return 0;
 }
 
