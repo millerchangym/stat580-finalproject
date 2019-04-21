@@ -214,7 +214,7 @@ int main(int argc, char *argv[])
 	free(numer_coeff_upper);
 	numer_coeff_upper = NULL;
 
-	for (i = 0; i < n_denom_coeff; i ++) {
+	for (i = 0; i < n_denom_coeff; i++) {
 		free(denom_coeff[i]);
 		denom_coeff[i] = NULL;
 	}
