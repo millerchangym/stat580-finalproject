@@ -27,7 +27,7 @@ unsigned long binom(int n, int k) {
 	c = 1;
 
 	for (i = 0; i < k; i++)
-		c *= (n - i) / (i + 1);
+		c = c * (n - i) / (i + 1);
 
 	return c;
 

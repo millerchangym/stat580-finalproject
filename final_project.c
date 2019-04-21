@@ -48,7 +48,9 @@ int main(int argc, char *argv[])
 	int n;
 	int m_plus, m_minus;
 	unsigned long **coeff;
+	int n_coeff;
 	int i;
+	int u;
 
 	// Use alpha = 5% by default
 	if (argc == 7) {
@@ -76,10 +78,14 @@ int main(int argc, char *argv[])
 	}
 
 	// Row and column totals
-	n_1plus = a + c;
-	n_2plus = b + d;
-	n_plus1 = a + b;
-	n_plus2 = c + d;
+	n_1plus = a + b;
+	n_2plus = c + d;
+	n_plus1 = a + c;
+	n_plus2 = b + d;
+
+	printf("Assuming fixed totals...\n");
+	printf("Row totals: %d, %d\n", n_1plus, n_2plus);
+	printf("Column totals: %d, %d\n", n_plus1, n_plus2);
 
 	n = a + b + c + d;
 
@@ -88,18 +94,31 @@ int main(int argc, char *argv[])
 	m_plus = min(n_1plus, n_plus1);
 
 	// determine coefficients
-	coeff = (unsigned long **) calloc(m_plus + m_minus - 1, sizeof(unsigned long *));
+	n_coeff = m_plus - m_minus + 1;
+	printf("\nNumber of coefficients: %d\n", n_coeff);
+	coeff = (unsigned long **) calloc(n_coeff, sizeof(unsigned long *));
 	if (!coeff) {
 		printf("Calloc for coeff failed!\n");
 		exit(1);
 	}
 
-	for (i = 0; i < 2; i++) {
+	for (i = 0; i < n_coeff; i++) {
 		coeff[i] = (unsigned long *) calloc(2, sizeof(unsigned long));
 		if (!coeff[i]) {
 			printf("Calloc for coeff[%d] failed!\n", i);
 			exit(1);
 		}
+	}
+
+	printf("Coefficients and powers: ");
+	for (i = 0; i < n_coeff; i++) {
+		// printf("%d ", i);
+		u = m_minus + i;
+		// printf("n_1plus: %d\n n_plus1: %d\n u: %d\n n: %d\n", n_1plus, n_plus1, u, n);
+		coeff[i][1] = binom(n_1plus, u) * binom(n - n_1plus, n_plus1 - u);
+		// printf("%ld ", coeff[i][1]);
+		coeff[i][2] = u;
+		// printf("with power %ld\n", coeff[i][2]);
 	}
 
 	FREE_2ARRAY(coeff);
