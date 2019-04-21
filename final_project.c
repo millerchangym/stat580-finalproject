@@ -58,7 +58,9 @@ int main(int argc, char *argv[])
 	int n_1plus, n_2plus, n_plus1, n_plus2;
 	int n;
 	int m_plus, m_minus;
+	unsigned long **numer_coeff_upper, **numer_coeff_lower;
 	unsigned long **denom_coeff;
+	int n_numer_coeff_upper, n_numer_coeff_lower;
 	int n_denom_coeff;
 	int i;
 	int u;
@@ -101,6 +103,37 @@ int main(int argc, char *argv[])
 	// variables for PMF
 	m_minus = max(0, n_1plus + n_plus1 - n);
 	m_plus = min(n_1plus, n_plus1);
+
+	/////// POLYNOMIAL DETERMINATION (NUMERATOR) ///////
+
+	// Note that the denominator is not dependent on
+	// t, which is the variable to be summed for
+	// computation of the 100(1-alpha)% confidence
+	// interval
+
+	// note m_minus <= t <= m_plus
+
+	// t >= n_11 for lower
+	n_numer_coeff_lower = m_plus - n_11 + 1;
+	// t <= n_11 for lower
+	n_numer_coeff_upper = n_11 - m_minus + 1;
+
+	numer_coeff_lower = (unsigned long **)
+				calloc(n_numer_coeff_lower,
+					sizeof(unsigned long *));
+	if (!numer_coeff_lower) {
+		printf("Calloc for numer_coeff_lower failed !\n");
+		exit(1);
+	}
+
+	numer_coeff_upper = (unsigned long **)
+				calloc(n_numer_coeff_upper,
+					sizeof(unsigned long *));
+
+	if (!numer_coeff_upper) {
+		printf("Calloc for numer_coeff_upper failed !\n");
+		exit(1);
+	}
 
 	/////// POLYNOMIAL DETERMINATION (DENOMINATOR) ///////
 
