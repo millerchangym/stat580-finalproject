@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	int n_numer_coeff_upper, n_numer_coeff_lower;
 	int n_denom_coeff;
 	int i;
-	int u;
+	int t, u;
 
 	// Use alpha = 5% by default
 	if (argc == 7)
@@ -138,6 +138,23 @@ int main(int argc, char *argv[])
 		printf("Calloc for numer_coeff_upper failed !\n");
 		exit(1);
 	}
+
+	for (i = 0; i < n_numer_coeff_lower; i++) {
+		numer_coeff_lower[i] = (unsigned long *)
+			calloc(2, sizeof(unsigned long));
+		if (!numer_coeff_lower[i]) {
+			printf("Calloc for numer_coeff_lower[i] failed !\n");
+			exit(1);
+		}
+	}
+
+	for (i = 0; i < n_numer_coeff_lower; i++) {
+		t = n_11 + i;
+		numer_coeff_lower[i][1];
+		numer_coeff_lower[i][2] = t;
+	}
+
+	FREE_2ARRAY(numer_coeff_lower);
 
 	/////// POLYNOMIAL DETERMINATION (DENOMINATOR) ///////
 
