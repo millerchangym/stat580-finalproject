@@ -49,6 +49,6 @@
 int stringNumericCheck(char *str);
 int max(int a, int b);
 int min(int a, int b);
-int unsigned long binom(int n, int k);
+unsigned long binom(int n, int k);
 
 #endif
