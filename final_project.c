@@ -37,12 +37,12 @@ int main(int argc, char *argv[])
 		if (strcmp(argv[5], "-alpha") != 0) {
 			printf("The switch you used is incorrect.\n");
 			printf("Use the correct switch -alpha e, with ");
-			printf(e a number between 0 and 1 exclusive.\n");
+			printf("e a number between 0 and 1 exclusive.\n");
 			exit(1);
 		}
 
 		// check for a numeric alpha value
-		if(!stringNumericCheck(argv[6])) {
+		if (!stringNumericCheck(argv[6])) {
 			printf("Please use a numeric value for the alpha.\n");
 			exit(1);
 		}
@@ -58,8 +58,8 @@ int main(int argc, char *argv[])
 	int n_1plus, n_2plus, n_plus1, n_plus2;
 	int n;
 	int m_plus, m_minus;
-	unsigned long **coeff;
-	int n_coeff;
+	unsigned long **denom_coeff;
+	int n_denom_coeff;
 	int i;
 	int u;
 
@@ -104,29 +104,31 @@ int main(int argc, char *argv[])
 
 	/////// POLYNOMIAL DETERMINATION (DENOMINATOR) ///////
 
-	n_coeff = m_plus - m_minus + 1;
-	coeff = (unsigned long **) calloc(n_coeff, sizeof(unsigned long *));
-	if (!coeff) {
-		printf("Calloc for coeff failed !\n");
+	n_denom_coeff = m_plus - m_minus + 1;
+	denom_coeff = (unsigned long **)
+			calloc(n_denom_coeff, sizeof(unsigned long *));
+	if (!denom_coeff) {
+		printf("Calloc for denom_coeff failed !\n");
 		exit(1);
 	}
 
-	for (i = 0; i < n_coeff; i++) {
-		coeff[i] = (unsigned long *) calloc(2, sizeof(unsigned long));
-		if (!coeff[i]) {
-			printf("Calloc for coeff[i] failed !\n");
+	for (i = 0; i < n_denom_coeff; i++) {
+		denom_coeff[i] = (unsigned long *)
+			calloc(2, sizeof(unsigned long));
+		if (!denom_coeff[i]) {
+			printf("Calloc for denom_coeff[i] failed !\n");
 			exit(1);
 		}
 	}
 
-	for (i = 0; i < n_coeff; i++) {
+	for (i = 0; i < n_denom_coeff; i++) {
 		u = m_minus + i;
-		coeff[i][1] = binom(n_1plus, u) *
-				binom(n - n_1plus, n_plus1 - u);
-		coeff[i][2] = u;
+		denom_coeff[i][1] = binom(n_1plus, u) *
+					binom(n - n_1plus, n_plus1 - u);
+		denom_coeff[i][2] = u;
 	}
 
-	FREE_2ARRAY(coeff);
+	FREE_2ARRAY(denom_coeff);
 
 	return 0;
 }
