@@ -110,15 +110,10 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	printf("Coefficients and powers: ");
 	for (i = 0; i < n_coeff; i++) {
-		// printf("%d ", i);
 		u = m_minus + i;
-		// printf("n_1plus: %d\n n_plus1: %d\n u: %d\n n: %d\n", n_1plus, n_plus1, u, n);
 		coeff[i][1] = binom(n_1plus, u) * binom(n - n_1plus, n_plus1 - u);
-		// printf("%ld ", coeff[i][1]);
 		coeff[i][2] = u;
-		// printf("with power %ld\n", coeff[i][2]);
 	}
 
 	FREE_2ARRAY(coeff);
