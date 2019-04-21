@@ -47,6 +47,8 @@ int main(int argc, char *argv[])
 	int n_1plus, n_2plus, n_plus1, n_plus2;
 	int n;
 	int m_plus, m_minus;
+	unsigned long **coeff;
+	int i;
 
 	// Use alpha = 5% by default
 	if (argc == 7) {
@@ -82,7 +84,25 @@ int main(int argc, char *argv[])
 	n = a + b + c + d;
 
 	// variables for PMF
-	// m_minus = max(0, n_1plus + n_plus1 - n)
+	m_minus = max(0, n_1plus + n_plus1 - n);
+	m_plus = min(n_1plus, n_plus1);
+
+	// determine coefficients
+	coeff = (unsigned long **) calloc(m_plus + m_minus - 1, sizeof(unsigned long *));
+	if (!coeff) {
+		printf("Calloc for coeff failed!\n");
+		exit(1);
+	}
+
+	for (i = 0; i < 2; i++) {
+		coeff[i] = (unsigned long *) calloc(2, sizeof(unsigned long));
+		if (!coeff[i]) {
+			printf("Calloc for coeff[%d] failed!\n", i);
+			exit(1);
+		}
+	}
+
+	FREE_2ARRAY(coeff);
 
 	return 0;
 }

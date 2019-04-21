@@ -12,7 +12,7 @@ int stringNumericCheck(char *str) {
 }
 
 // https://en.wikipedia.org/wiki/Binomial_coefficient#Binomial_coefficient_in_programming_languages 
-unsigned long binom(unsigned long n, unsigned long k) {
+unsigned long binom(int n, int k) {
 	unsigned long c;
 	int i = 0;
 
