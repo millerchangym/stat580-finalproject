@@ -198,7 +198,8 @@ int main(int argc, char *argv[])
 	}
 
 
-	// FREE MEMORY SPACE //
+	////////// FREE MEMORY SPACE //////////
+
 	for (i = 0; i < n_numer_coeff_lower; i++) {
 		free(numer_coeff_lower[i]);
 		numer_coeff_lower[i] = NULL;
