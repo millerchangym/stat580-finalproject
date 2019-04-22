@@ -65,8 +65,9 @@ int main(int argc, char *argv[])
 	int n_denom_coeff;
 	int i;
 	int t, u;
-	double (*poly_ratio)(double, unsigned long **,
-				int, unsigned long **, int);
+	double (*poly_ratio)(double, double,
+				unsigned long **,
+					int, unsigned long **, int);
 
 	// Use alpha = 5% by default
 	if (argc == 7)
@@ -205,7 +206,8 @@ int main(int argc, char *argv[])
 	////////// GENERATE RATIO OF POLYNOMIALS ///////////
 
 	poly_ratio = generate_poly;
-	
+
+	//// IMPLEMENT NEWTON-RAPHSON FOR LOWER BOUND ////
 
 	////////// FREE MEMORY SPACE //////////
 
