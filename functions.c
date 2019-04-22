@@ -1,5 +1,6 @@
 #include "final_project.h"
 
+// check if string has only numeric values
 int stringNumericCheck(char *str) {
         int i = 0;
         int notNumericCount = 0;
@@ -40,3 +41,4 @@ int max(int a, int b) {
 int min(int a, int b) {
 	return a * (a < b) + b * (a >= b);
 }
+

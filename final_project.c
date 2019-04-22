@@ -65,6 +65,7 @@ int main(int argc, char *argv[])
 	int n_denom_coeff;
 	int i;
 	int t, u;
+	double test;
 
 	// Use alpha = 5% by default
 	if (argc == 7)
@@ -122,6 +123,7 @@ int main(int argc, char *argv[])
 	// t <= n_11 for lower
 	n_numer_coeff_lower = n_11 - m_minus + 1;
 
+	// memory allocation of numerator coefficients
 	numer_coeff_lower = (unsigned long **)
 				calloc(n_numer_coeff_lower,
 					sizeof(unsigned long *));
@@ -139,6 +141,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
+	// determine lower-bound confidence interval coefficients
 	for (i = 0; i < n_numer_coeff_lower; i++) {
 		numer_coeff_lower[i] = (unsigned long *)
 			calloc(2, sizeof(unsigned long));
@@ -155,6 +158,7 @@ int main(int argc, char *argv[])
 		numer_coeff_lower[i][1] = t;
 	}
 
+	// determine upper-bound confidence interval coefficients
 	for (i = 0; i < n_numer_coeff_upper; i++) {
 		numer_coeff_upper[i] = (unsigned long *)
 			calloc(2, sizeof(unsigned long));
@@ -197,6 +201,7 @@ int main(int argc, char *argv[])
 		denom_coeff[i][1] = u;
 	}
 
+	////////// GENERATE RATIO OF POLYNOMIALS ///////////
 
 	////////// FREE MEMORY SPACE //////////
 
