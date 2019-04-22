@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 	int n_denom_coeff;
 	int i;
 	int t, u;
-	double test;
+	double test_num, test_denom, test_f, theta;
 
 	// Use alpha = 5% by default
 	if (argc == 7)
@@ -202,6 +202,16 @@ int main(int argc, char *argv[])
 	}
 
 	////////// GENERATE RATIO OF POLYNOMIALS ///////////
+
+	test_num = 0;
+	test_denom = 0;
+	theta = 0.5;
+	for (i = 0; i < n_numer_coeff_lower; i++)
+		test_num = test_num + numer_coeff_lower[i][0] * pow(theta, numer_coeff_lower[i][1]);
+	for (i = 0; i < n_denom_coeff; i++)
+		test_denom = test_denom + denom_coeff[i][0] * pow(theta, denom_coeff[i][1]);
+	test_f = test_num/test_denom;
+	printf("%f\n", test_f);
 
 	////////// FREE MEMORY SPACE //////////
 
