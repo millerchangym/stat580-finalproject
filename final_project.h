@@ -6,12 +6,18 @@
 #include <string.h>
 #include <ctype.h>
 
+typedef (*function)(double, double,
+			unsigned long **, int,
+				unsigned long **, int);
 int stringNumericCheck(char *str);
 int max(int a, int b);
 int min(int a, int b);
 unsigned long binom(int n, int k);
-double generate_poly(double theta,
+double generate_poly(double theta, double alpha,
 			unsigned long **numer, int numer_rows,
 				unsigned long **denom, int denom_rows);
+double generate_poly_deriv(double theta, double alpha,
+				unsigned long **numer, int numer_rows,
+					unsigned long **denom, int denom_rows);
 
 #endif
