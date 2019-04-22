@@ -42,3 +42,28 @@ int min(int a, int b) {
 	return a * (a < b) + b * (a >= b);
 }
 
+// generate the polynomial of interest by taking 
+// the numerator coefficients and powers and
+// the denominator coefficients and powers
+double generate_poly(double theta, 
+			unsigned long **numer, int numer_rows,
+				unsigned long **denom, int denom_rows) {
+	int i;
+	double num_val, denom_val, out;
+
+	num_val = 0;
+	denom_val = 0;
+
+	// numerator coefficients and powers
+	for (i = 0; i < numer_rows; i++)
+		num_val = num_val + numer[i][0] * pow(theta, numer[i][1]);
+
+	// denominator coefficients and powers
+	for (i = 0; i < denom_rows; i++)
+		denom_val = denom_val + denom[i][0] * pow(theta, denom[i][1]);
+
+	out = num_val/denom_val;
+
+	return out;
+}
+

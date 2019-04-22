@@ -10,5 +10,8 @@ int stringNumericCheck(char *str);
 int max(int a, int b);
 int min(int a, int b);
 unsigned long binom(int n, int k);
+double generate_poly(double theta,
+			unsigned long **numer, int numer_rows,
+				unsigned long **denom, int denom_rows);
 
 #endif
