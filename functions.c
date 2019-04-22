@@ -111,7 +111,7 @@ double newton_raphson(function f, function f_prime,
 
 	do {
 		n_iter++;
-		print("Iteration %d\n: ", n_iter);
+		printf("Iteration %d\n: ", n_iter);
 		theta_next = theta_prev -
 			f(theta_prev, alpha, numer, numer_rows,
 				denom, denom_rows) /
@@ -125,6 +125,7 @@ double newton_raphson(function f, function f_prime,
 			theta_prev = theta_next;
 		else
 			printf("STOPPING...\n");
-	} while (!stop)
+	} while (!stop);
+
 	return theta_next;
 }
