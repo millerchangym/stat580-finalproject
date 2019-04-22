@@ -203,9 +203,9 @@ int main(int argc, char *argv[])
 	}
 
 	////////// GENERATE RATIO OF POLYNOMIALS ///////////
+
 	poly_ratio = generate_poly;
-	printf("%f\n", poly_ratio(0.5, numer_coeff_lower, n_numer_coeff_lower,
-					denom_coeff, n_denom_coeff));
+	
 
 	////////// FREE MEMORY SPACE //////////
 
