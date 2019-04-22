@@ -73,7 +73,7 @@ double generate_poly_deriv(double theta, double alpha,
 					unsigned long **denom, int denom_rows) {
 
 	int i;
-	double num_deriv, denom_deriv, out;
+	double num_val, denom_val, out;
 
 	num_val = 0;
 	denom_val = 0;

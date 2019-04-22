@@ -6,7 +6,7 @@
 #include <string.h>
 #include <ctype.h>
 
-typedef (*function)(double, double,
+typedef double (*function)(double, double,
 			unsigned long **, int,
 				unsigned long **, int);
 int stringNumericCheck(char *str);
