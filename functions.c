@@ -67,3 +67,29 @@ double generate_poly(double theta, double alpha,
 	return out;
 }
 
+// derivative of the generated polynomial, for Newton-Raphson
+double generate_poly_deriv(double theta, double alpha,
+				unsigned long **numer, int numer_rows,
+					unsigned long **denom, int denom_rows) {
+
+	int i;
+	double num_deriv, denom_deriv, out;
+
+	num_val = 0;
+	denom_val = 0;
+
+	// numerator derivative coefficients and powers
+	for (i = 0; i < numer_rows; i++)
+		num_val = num_val + numer[i][0] * numer[i][1] *
+			pow(theta, numer[i][1] - 1);
+
+	// denominator derivative coefficients and powers
+	for (i = 0; i < denom_rows; i++)
+		denom_val = denom_val + numer[i][0] * numer[i][1] *
+			pow(theta, numer[i][1] - 1);
+
+	out = num_val + (alpha/2) * denom_val;
+
+	return out;
+}
+
