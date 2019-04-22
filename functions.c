@@ -1,15 +1,22 @@
 #include "final_project.h"
 
-// check if string has only numeric values
+// check if string has only numeric values or decimal places
 int stringNumericCheck(char *str) {
         int i = 0;
         int notNumericCount = 0;
+	int decimalCount = 0;
+	int minusCount = 0;
 
         for (i = 0; i < strlen(str); i++) {
-                notNumericCount += !(isdigit(str[i]));
+		// count of non-numeric characters, minus periods
+		// and minuses
+                notNumericCount += !(isdigit(str[i])) - (str[i] == '.') -
+					(str[i] == '-');
+		decimalCount += (str[i] == '.');
+		minusCount += (str[i] == '-');
         }
 
-        return !(notNumericCount > 0);
+        return !(decimalCount >= 2 || notNumericCount > 0 || minusCount >= 2);
 }
 
 // https://en.wikipedia.org/wiki/Binomial_coefficient#Binomial_coefficient_in_programming_languages 
@@ -62,7 +69,7 @@ double generate_poly(double theta, double alpha,
 	for (i = 0; i < denom_rows; i++)
 		denom_val = denom_val + denom[i][0] * pow(theta, denom[i][1]);
 
-	out = num_val + (alpha/2) * denom_val;
+	out = num_val - (alpha/2) * denom_val;
 
 	return out;
 }
@@ -85,10 +92,10 @@ double generate_poly_deriv(double theta, double alpha,
 
 	// denominator derivative coefficients and powers
 	for (i = 0; i < denom_rows; i++)
-		denom_val = denom_val + numer[i][0] * numer[i][1] *
-			pow(theta, numer[i][1] - 1);
+		denom_val = denom_val + denom[i][0] * denom[i][1] *
+			pow(theta, denom[i][1] - 1);
 
-	out = num_val + (alpha/2) * denom_val;
+	out = num_val - (alpha/2) * denom_val;
 
 	return out;
 }
@@ -111,7 +118,7 @@ double newton_raphson(function f, function f_prime,
 
 	do {
 		n_iter++;
-		printf("Iteration %d\n: ", n_iter);
+		printf("Iteration %d ", n_iter);
 		theta_next = theta_prev -
 			f(theta_prev, alpha, numer, numer_rows,
 				denom, denom_rows) /
@@ -120,11 +127,14 @@ double newton_raphson(function f, function f_prime,
 		printf("New value: %f\n", theta_next);
 		// fabs is the floating-point absolute value
 		stop = (fabs(theta_next - theta_prev) <= threshold ||
-				n_iter >= n_iter_MAX);
+				n_iter >= n_iter_MAX ||
+				isnan(theta_next));
 		if (!stop)
 			theta_prev = theta_next;
 		else
 			printf("STOPPING...\n");
+		if (isnan(theta_next))
+			printf("NO SOLUTION FOR THETA...\n");
 	} while (!stop);
 
 	return theta_next;

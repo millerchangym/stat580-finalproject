@@ -12,12 +12,14 @@ int main(int argc, char *argv[])
 	// if the number of parameters is less than 5 (i.e., less
 	// than just the file name of the .exe and 4 numbers),
 	// return error
-	if (argc < 5 || argc > 7) {
+	if (argc <= 6 || argc == 8 || argc >= 10) {
 		printf("Please input a 2-by-2 matrix of counts in the form ");
 		printf("a b c d in row major order,\n");
-		printf("with optional switch -alpha e,");
-		printf(" e a number between 0 and 1 exclusive.\n");
-		printf("Note that e is set to 0.05 by default.");
+		printf("with required switch -theta e ");
+		printf("(e an initial guess for the odds ratios)\n");
+		printf("and optional switch -alpha f (f between 0 and 1 ");
+		printf("inclusive.)\n");
+		printf("Note that f is set to 0.05 by default.\n");
 		exit(1);
 	}
 
@@ -32,26 +34,56 @@ int main(int argc, char *argv[])
 
 	};
 
-	if (argc == 7) {
+	if (argc >= 6) {
 		// check for use of the correct switch after the numeric counts
-		if (strcmp(argv[5], "-alpha") != 0) {
-			printf("The switch you used is incorrect.\n");
-			printf("Use the correct switch -alpha e, with ");
-			printf("e a number between 0 and 1 exclusive.\n");
+		if (strcmp(argv[5], "-alpha") != 0 && strcmp(argv[5], "-theta") != 0) {
+			printf("Your first switch after the matrix entries ");
+			printf("is not a valid switch. ");
+			printf("Use either -alpha or -theta as switches.\n");
 			exit(1);
 		}
 
-		// check for a numeric alpha value
-		if (!stringNumericCheck(argv[6])) {
-			printf("Please use a numeric value for the alpha.\n");
-			exit(1);
+		// check for numeric 7th component, after the switch
+		if (argc >= 7) {
+			if (!stringNumericCheck(argv[6])) {
+				printf("Please use a numeric value for the first switch.\n");
+				exit(1);
+			}
 		}
+
+		// check for use of the correct second switch
+		if (argc >= 8) {
+			if (strcmp(argv[7], "-alpha") != 0 && strcmp(argv[7], "-theta") != 0) {
+				printf("Your second switch after the matrix entries ");
+				printf("is not a valid switch. ");
+				printf("Use either -alpha or -theta as switches.\n");
+				exit(1);
+			}
+
+			if ((strcmp(argv[5], "-alpha") == 0 &&
+				strcmp(argv[7], "-alpha") == 0) ||
+				(strcmp(argv[5], "-theta") == 0 &&
+					strcmp(argv[7], "-theta") == 0)) {
+				printf("You cannot have two of the same switch.\n");
+				exit(1);
+			}
+
+		}
+
+		// check for numeric 9th component, after the second switch
+		if (argc >= 9) {
+			if (!stringNumericCheck(argv[8])) {
+				printf("Please use a numeric value for the second switch.\n");
+				exit(1);
+			}
+		}
+
 	}
 
 	/////////////////// VARIABLE DECLARATION ///////////////////
 
 	// alpha and level for confidence interval
-	float alpha, level;
+	double alpha, level, theta_0;
 	// input: four components of a 2 x 2 contingency
 	// table, in row-major order
 	int a, b, c, d;
@@ -66,12 +98,32 @@ int main(int argc, char *argv[])
 	int i;
 	int t, u;
 	function poly, poly_deriv;
+	double estimate;
 
 	// Use alpha = 5% by default
-	if (argc == 7)
+	alpha = 0.05;
+	if (argc >= 7 && strcmp(argv[5], "-alpha") == 0)
 		alpha = atof(argv[6]);
-	else
-		alpha = 0.05;
+	if (argc >= 9 && strcmp(argv[7], "-alpha") == 0)
+		alpha = atof(argv[8]);
+
+	// use nonsensical value for theta_0 by default
+	// for error checking
+	theta_0 = -9999;
+	if (argc >= 7 && strcmp(argv[5], "-theta") == 0)
+		theta_0 = atof(argv[6]);
+	if (argc >= 9 && strcmp(argv[7], "-theta") == 0)
+		theta_0 = atof(argv[8]);
+	if (theta_0 == -9999) {
+		printf("No value for theta has been provided. ");
+		printf("Provide a value for theta.\n");
+		exit(1);
+	}
+
+	if (theta_0 < 0) {
+		printf("Provide a non-negative value for theta.\n");
+		exit(1);
+	}
 
 	// check for alpha in (0, 1)
 	if (!(alpha > 0 && alpha < 1)) {
@@ -207,6 +259,9 @@ int main(int argc, char *argv[])
 	poly_deriv = generate_poly_deriv;
 
 	//// IMPLEMENT NEWTON-RAPHSON FOR LOWER BOUND ////
+	estimate = newton_raphson(poly, poly_deriv, theta_0, alpha,
+			numer_coeff_lower, n_numer_coeff_lower,
+			denom_coeff, n_denom_coeff);
 
 	////////// FREE MEMORY SPACE //////////
 

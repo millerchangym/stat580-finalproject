@@ -19,5 +19,9 @@ double generate_poly(double theta, double alpha,
 double generate_poly_deriv(double theta, double alpha,
 				unsigned long **numer, int numer_rows,
 					unsigned long **denom, int denom_rows);
+double newton_raphson(function f, function f_prime,
+			double theta_0, double alpha, 
+				unsigned long **numer, int numer_rows,
+					unsigned long **denom, int denom_rows);
 
 #endif
