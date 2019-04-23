@@ -2,4 +2,4 @@ final_project
 *.tex
 *.gz
 *.log
-
+*.toc
