@@ -32,7 +32,7 @@ double binom(int n, int k)
 		return 1;
 
 	// k = min(k, n-k)
-	k = min(k, (n - k));
+	k = minInt(k, (n - k));
 
 	c = 1;
 
@@ -43,15 +43,26 @@ double binom(int n, int k)
 
 }
 
-int max(int a, int b)
+int maxInt(int a, int b)
 {
 	return a * (a >= b) + b * (a < b);
 }
 
-int min(int a, int b)
+int minInt(int a, int b)
 {
 	return a * (a < b) + b * (a >= b);
 }
+
+double max(double a, double b)
+{
+	return a * (a >= b) + b * (a < b);
+}
+
+double min(double a, double b)
+{
+	return a * (a < b) + b * (a >= b);
+}
+
 
 // generate the polynomial of interest by taking
 // the numerator coefficients and powers and

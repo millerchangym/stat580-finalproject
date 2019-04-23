@@ -10,8 +10,10 @@ typedef double (*function)(double, double,
 			double **, int,
 				double **, int);
 int stringNumericCheck(char *str);
-int max(int a, int b);
-int min(int a, int b);
+int maxInt(int a, int b);
+int minInt(int a, int b);
+double max(double a, double b);
+double min(double a, double b);
 double binom(int n, int k);
 double generate_poly(double theta, double alpha,
 			double **numer, int numer_rows,

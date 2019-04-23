@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
 	// table, in row-major order
 	int a, b, c, d;
 	int n_11;
-	int n_1plus, n_2plus, n_plus1, n_plus2;
+	int n_1plus, n_plus1;
 	int n;
 	int m_plus, m_minus;
 	double **numer_coeff_upper, **numer_coeff_lower;
@@ -170,8 +170,8 @@ int main(int argc, char *argv[])
 	int t, u;
 	function poly, poly_deriv;
 	int v;
-
 	double estimate_lower, estimate_upper;
+	double lower_bound, upper_bound;
 
 	// Use alpha = 5% by default
 	alpha = 0.05;
@@ -235,17 +235,15 @@ int main(int argc, char *argv[])
 
 	// Row and column totals
 	n_1plus = a + b;
-	n_2plus = c + d;
 	n_plus1 = a + c;
-	n_plus2 = b + d;
 
 	printf("Assuming fixed row and column totals...\n");
 
 	n = a + b + c + d;
 
 	// variables for PMF
-	m_minus = max(0, n_1plus + n_plus1 - n);
-	m_plus = min(n_1plus, n_plus1);
+	m_minus = maxInt(0, n_1plus + n_plus1 - n);
+	m_plus = minInt(n_1plus, n_plus1);
 
 	/////// POLYNOMIAL DETERMINATION (NUMERATOR) ///////
 
@@ -355,6 +353,15 @@ int main(int argc, char *argv[])
 	estimate_upper = newton_raphson(poly, poly_deriv, theta_0, alpha,
 				numer_coeff_upper, n_numer_coeff_upper,
 				denom_coeff, n_denom_coeff, v);
+
+	lower_bound = min(estimate_lower, estimate_upper);
+	upper_bound = max(estimate_lower, estimate_upper);
+
+	//// PRINT THE CONFIDENCE INTERVAL ////
+
+	printf("The %.1f confidence interval ", level * 100);
+	printf("for the odds ratio is ");
+	printf("[%.3f, %.3f]\n", lower_bound, upper_bound);
 
 	////////// FREE MEMORY SPACE //////////
 
