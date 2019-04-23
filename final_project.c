@@ -204,11 +204,9 @@ int main(int argc, char *argv[])
 
 	for (i = 0; i < n_numer_coeff_lower; i++) {
 		t = m_minus + i;
-	//	printf("t: %d ", t);
 		numer_coeff_lower[i][0] = binom(n_1plus, t) *
 						binom(n - n_1plus, n_plus1 - t);
 		numer_coeff_lower[i][1] = t;
-	//	printf("%dth Coefficient: %lu Power: %lu\n", i, numer_coeff_lower[i][0], numer_coeff_lower[i][1]); 
 	}
 
 	// determine upper-bound confidence interval coefficients
@@ -223,11 +221,9 @@ int main(int argc, char *argv[])
 
 	for (i = 0; i < n_numer_coeff_upper; i++) {
 		t = n_11 + i;
-		// printf("t: %d ", t);
 		numer_coeff_upper[i][0] = binom(n_1plus, t) *
 						binom(n - n_1plus, n_plus1 - t);
 		numer_coeff_upper[i][1] = t;
-		// printf("%dth Coefficient: %lu Power: %lu\n", i, numer_coeff_lower[i][0], numer_coeff_lower[i][1]);
 	}
 
 	/////// POLYNOMIAL DETERMINATION (DENOMINATOR) ///////
@@ -251,19 +247,15 @@ int main(int argc, char *argv[])
 
 	for (i = 0; i < n_denom_coeff; i++) {
 		u = m_minus + i;
-	//	printf("u: %d ", u);
 		denom_coeff[i][0] = binom(n_1plus, u) *
 					binom(n - n_1plus, n_plus1 - u);
 		denom_coeff[i][1] = u;
-	//	printf("%dth Coefficient: %lu Power: %lu\n", i, denom_coeff[i][0], denom_coeff[i][1]);
 	}
 
 	////////// GENERATE POLYNOMIALS ///////////
 
 	poly = generate_poly;
 	poly_deriv = generate_poly_deriv;
-//	printf("%f\n", poly(theta_0, alpha, numer_coeff_lower, n_numer_coeff_lower, denom_coeff, n_denom_coeff));
-//	printf("%f\n", poly_deriv(theta_0, alpha, numer_coeff_lower, n_numer_coeff_lower, denom_coeff, n_denom_coeff));
 
 	//// IMPLEMENT NEWTON-RAPHSON FOR LOWER BOUND ////
 	printf("****** BEGIN NEWTON-RAPHSON ******\n");
