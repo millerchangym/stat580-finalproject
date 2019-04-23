@@ -9,9 +9,7 @@ int main(int argc, char *argv[])
 {
 	/////////////////// ERROR CHECKING ///////////////////
 
-	// if the number of parameters is less than 5 (i.e., less
-	// than just the file name of the .exe and 4 numbers),
-	// return error
+	// return error if incorrect number of parameters
 	if (argc <= 6 ||
 		argc == 8 ||
 			argc == 10 ||
@@ -27,7 +25,9 @@ int main(int argc, char *argv[])
 		printf(" e is an initial guess for the odds ratio\n\n");
 		printf("OPTIONAL:\n");
 		printf("-alpha f  -------");
-		printf(" f is a number with 0 < f < 1, with 1-alpha\n");
+		printf(" f is a number to the nearest thousandth\n");
+		printf("                  ");
+		printf("with 0 < f < 1, with 1 - alpha\n");
 		printf("                  ");
 		printf("being the level of the confidence interval.\n");
 		printf("                  ");
@@ -230,7 +230,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	// Print input m atrix
+	// Print input matrix
 	printf("Input matrix:\n");
 	printf("%d %d\n", a, b);
 	printf("%d %d\n", c, d);
@@ -372,7 +372,7 @@ int main(int argc, char *argv[])
 
 	printf("The %.1f%% confidence interval ", level * 100);
 	printf("for the odds ratio is ");
-	printf("[%.3f, %.3f]\n", lower_bound, upper_bound);
+	printf("[%.3f, %.3f].\n", lower_bound, upper_bound);
 
 	////////// FREE MEMORY SPACE //////////
 
