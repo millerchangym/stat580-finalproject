@@ -1,6 +1,7 @@
 #include "final_project.h"
 
 // documentation function
+// simply prints documentation
 void documentation() {
 	printf("REQUIRED:\n");
 	printf(" a b c d  -------");
@@ -30,7 +31,8 @@ void documentation() {
 	printf("g is set to 0 by default.\n");
 }
 
-// check if string has only numeric values or decimal places
+// check if string has only numeric values,
+// a decimal point, or a minus sign
 int stringNumericCheck(char *str)
 {
 	int i = 0;
@@ -50,6 +52,7 @@ int stringNumericCheck(char *str)
 	return !(decimalCount >= 2 || notNumericCount > 0 || minusCount >= 2);
 }
 
+// Binomial coefficient
 // https://en.wikipedia.org/wiki/Binomial_coefficient#Binomial_coefficient_in_programming_languages
 double binom(int n, int k)
 {
@@ -73,21 +76,25 @@ double binom(int n, int k)
 
 }
 
+// max for integers
 int maxInt(int a, int b)
 {
 	return a * (a >= b) + b * (a < b);
 }
 
+// min for integers
 int minInt(int a, int b)
 {
 	return a * (a < b) + b * (a >= b);
 }
 
+// max for doubles
 double max(double a, double b)
 {
 	return a * (a >= b) + b * (a < b);
 }
 
+// min for doubles
 double min(double a, double b)
 {
 	return a * (a < b) + b * (a >= b);
@@ -170,11 +177,20 @@ double newton_raphson(function f, function f_prime,
 	int n_iter, n_iter_MAX;
 	int stop;
 
+	// threshold for stopping (i.e., differences
+	// between two iterations of the parameter
+	// theta)
 	threshold = 0.001;
+
+	// iteration counter
 	n_iter = 0;
+
+	// max number of iterations allowed
 	n_iter_MAX = 5000;
 	theta_prev = theta_0;
 
+	// verbose prints additional information about
+	// the Newton-Raphson procedure when it is 1
 	if (verbose)
 		printf("Initial theta: %f\n", theta_0);
 
@@ -182,6 +198,9 @@ double newton_raphson(function f, function f_prime,
 		n_iter++;
 		if (verbose)
 			printf("Iteration %d ", n_iter);
+
+		// compute the function and its derivative evaluated
+		// at the given value of theta (i.e., theta_prev)
 		func_value = f(theta_prev, alpha, numer, numer_rows,
 				denom, denom_rows);
 		deriv_value = f_prime(theta_prev, alpha, numer, numer_rows,
@@ -190,32 +209,37 @@ double newton_raphson(function f, function f_prime,
 			printf("function value: %f ", func_value);
 			printf("derivative value: %f ", deriv_value);
 		}
+
+		// avoids division by zero
 		if (deriv_value == 0) {
 			printf("ZERO DERIVATIVE ERROR! STOPPING...\n");
 			exit(1);
 		}
 
-		stop = (
-			fabs(theta_next - theta_prev) <= threshold ||
-				n_iter >= n_iter_MAX ||
-					deriv_value == 0
-			);
-
+		// Newton update equation
 		theta_next = theta_prev - (func_value/deriv_value);
 
 		if (verbose)
 			printf("New theta: %f\n", theta_next);
 
 		// fabs is the floating-point absolute value
+		// stop is a boolean used to tell the program to stop
+		// executing Newton-Raphson when the threshold is met,
+		// or you've exceeded the number of iterations allowed,
+		// or you've hit a zero-derivative point
 		stop = (fabs(theta_next - theta_prev) <= threshold ||
 				n_iter >= n_iter_MAX ||
-				isnan(theta_next));
-		if (!stop)
+				isnan(theta_next) ||
+				deriv_value == 0);
+
+		if (!stop) // keep updating if stop is not 1
 			theta_prev = theta_next;
-		else if (verbose)
+		else if (verbose) // otherwise, print if verbose
 			printf("STOPPING...\n");
+
 	} while (!stop);
 
+	// print error for negative odds ratio
 	if (theta_next < 0) {
 		printf("ERROR: Newton-Raphson generated a negative ");
 		printf("estimate for theta. Use a different value ");
@@ -223,8 +247,20 @@ double newton_raphson(function f, function f_prime,
 		exit(1);
 	}
 
-	if (fabs(theta_next - theta_prev) > threshold) {
+	// print error indicating the threshold
+	// was not met, or the number of iterations
+	// exceeded the number allowable
+	if (fabs(theta_next - theta_prev) > threshold ||
+		n_iter >= n_iter_MAX) {
 		printf("ERROR: Newton-Raphson did not converge. ");
+		printf("Use a different value for the theta switch.\n");
+		exit(1);
+	}
+
+	// print error indicating a zero derivative
+	if (deriv_value == 0) {
+		printf("ERROR: Newton-Raphson did not converge ");
+		printf("due to a zero-derivative point.");
 		printf("Use a different value for the theta switch.\n");
 		exit(1);
 	}
