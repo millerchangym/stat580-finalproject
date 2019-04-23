@@ -347,6 +347,7 @@ int main(int argc, char *argv[])
 	//// IMPLEMENT NEWTON-RAPHSON FOR LOWER BOUND ////
 	if (v)
 		printf("****** BEGIN NEWTON-RAPHSON ******\n");
+
 	estimate = newton_raphson(poly, poly_deriv, theta_0, alpha,
 			numer_coeff_upper, n_numer_coeff_upper,
 			denom_coeff, n_denom_coeff, v);

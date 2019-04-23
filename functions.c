@@ -164,9 +164,22 @@ long double newton_raphson(function f, function f_prime,
 				isnan(theta_next));
 		if (!stop)
 			theta_prev = theta_next;
-		else
+		else if (verbose)
 			printf("STOPPING...\n");
 	} while (!stop);
+
+	if (theta_next < 0) {
+		printf("ERROR: Newton-Raphson generated a negative ");
+		printf("estimate for theta. Use a different value ");
+		printf("for the theta switch.\n");
+		exit(1);
+	}
+
+	if (fabs(theta_next - theta_prev) > threshold) {
+		printf("ERROR: Newton-Raphson did not converge. ");
+		printf("Use a different value for the theta switch.\n");
+		exit(1);
+	}
 	
 	return theta_next;
 }
