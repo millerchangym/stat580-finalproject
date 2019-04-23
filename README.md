@@ -1,2 +1,5 @@
-# stat580-finalproject
+# Final Project for STAT 580
+## Yeng Miller-Chang
+
+
 
