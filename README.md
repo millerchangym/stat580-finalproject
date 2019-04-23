@@ -1,5 +1,6 @@
 # Final Project for STAT 580
-## Yeng Miller-Chang
+Yeng Miller-Chang
+$`x^2`$
 
 
 
