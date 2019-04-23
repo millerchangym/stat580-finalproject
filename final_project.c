@@ -350,7 +350,8 @@ int main(int argc, char *argv[])
 
 	estimate_lower = newton_raphson(poly, poly_deriv, theta_0, alpha,
 				numer_coeff_lower, n_numer_coeff_lower,
-				denom_coeff, n_denom_coeff, v);	
+				denom_coeff, n_denom_coeff, v);
+
 	estimate_upper = newton_raphson(poly, poly_deriv, theta_0, alpha,
 				numer_coeff_upper, n_numer_coeff_upper,
 				denom_coeff, n_denom_coeff, v);

@@ -1,26 +1,28 @@
 #include "final_project.h"
 
 // check if string has only numeric values or decimal places
-int stringNumericCheck(char *str) {
-        int i = 0;
-        int notNumericCount = 0;
+int stringNumericCheck(char *str)
+{
+	int i = 0;
+	int notNumericCount = 0;
 	int decimalCount = 0;
 	int minusCount = 0;
 
-        for (i = 0; i < strlen(str); i++) {
+	for (i = 0; i < strlen(str); i++) {
 		// count of non-numeric characters, minus periods
 		// and minuses
-                notNumericCount += !(isdigit(str[i])) - (str[i] == '.') -
-					(str[i] == '-');
+		notNumericCount += !(isdigit(str[i])) - (str[i] == '.') -
+				(str[i] == '-');
 		decimalCount += (str[i] == '.');
 		minusCount += (str[i] == '-');
-        }
+	}
 
-        return !(decimalCount >= 2 || notNumericCount > 0 || minusCount >= 2);
+	return !(decimalCount >= 2 || notNumericCount > 0 || minusCount >= 2);
 }
 
-// https://en.wikipedia.org/wiki/Binomial_coefficient#Binomial_coefficient_in_programming_languages 
-double binom(int n, int k) {
+// https://en.wikipedia.org/wiki/Binomial_coefficient#Binomial_coefficient_in_programming_languages
+double binom(int n, int k)
+{
 	double c;
 	int i = 0;
 
@@ -41,20 +43,23 @@ double binom(int n, int k) {
 
 }
 
-int max(int a, int b) {
+int max(int a, int b)
+{
 	return a * (a >= b) + b * (a < b);
 }
 
-int min(int a, int b) {
+int min(int a, int b)
+{
 	return a * (a < b) + b * (a >= b);
 }
 
-// generate the polynomial of interest by taking 
+// generate the polynomial of interest by taking
 // the numerator coefficients and powers and
 // the denominator coefficients and powers
 double generate_poly(double theta, double alpha,
 			double **numer, int numer_rows,
-				double **denom, int denom_rows) {
+				double **denom, int denom_rows)
+{
 	int i;
 	double num_val, denom_val, out;
 
@@ -62,16 +67,12 @@ double generate_poly(double theta, double alpha,
 	denom_val = 0;
 
 	// numerator coefficients and powers
-	for (i = 0; i < numer_rows; i++) {
-//		printf("Numerator coefficient: %lu Power: %lu\n", numer[i][0], numer[i][1]);
+	for (i = 0; i < numer_rows; i++)
 		num_val += numer[i][0] * pow(theta, numer[i][1]);
-	}
 
 	// denominator coefficients and powers
-	for (i = 0; i < denom_rows; i++) {
-//		printf("Denominator coefficient: %lu Power: %lu\n", denom[i][0], denom[i][1]);
+	for (i = 0; i < denom_rows; i++)
 		denom_val += denom[i][0] * pow(theta, denom[i][1]);
-	}
 
 	out = num_val - (alpha/2) * denom_val;
 
@@ -81,7 +82,8 @@ double generate_poly(double theta, double alpha,
 // derivative of the generated polynomial, for Newton-Raphson
 double generate_poly_deriv(double theta, double alpha,
 				double **numer, int numer_rows,
-					double **denom, int denom_rows) {
+					double **denom, int denom_rows)
+{
 
 	int i;
 	double num_val, denom_val, out;
@@ -97,7 +99,7 @@ double generate_poly_deriv(double theta, double alpha,
 			num_val += numer[i][0] * numer[i][1] *
 					pow(theta, numer[i][1] - 1);
 	}
-	
+
 	// denominator derivative coefficients and powers
 	for (i = 0; i < denom_rows; i++) {
 		if (denom[i][1] == 0)
@@ -113,14 +115,15 @@ double generate_poly_deriv(double theta, double alpha,
 }
 
 // implement Newton-Raphson
-double newton_raphson(function f, function f_prime, 
+double newton_raphson(function f, function f_prime,
 			double theta_0,
 				double alpha,
 					double **numer, int numer_rows,
 						double **denom, int denom_rows,
-							int verbose) {
+							int verbose)
+{
 
-	double threshold; 
+	double threshold;
 	double theta_next, theta_prev;
 	double func_value, deriv_value;
 	int n_iter, n_iter_MAX;
@@ -156,7 +159,7 @@ double newton_raphson(function f, function f_prime,
 				n_iter >= n_iter_MAX ||
 					deriv_value == 0
 			);
-						
+
 		theta_next = theta_prev - (func_value/deriv_value);
 
 		if (verbose)
@@ -184,6 +187,6 @@ double newton_raphson(function f, function f_prime,
 		printf("Use a different value for the theta switch.\n");
 		exit(1);
 	}
-	
+
 	return theta_next;
 }
