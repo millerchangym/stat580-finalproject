@@ -185,6 +185,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
+	// make sure theta_0 is non-negative
 	if (theta_0 < 0) {
 		printf("Provide a non-negative value for theta.\n");
 		exit(1);
@@ -197,13 +198,17 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
+	// confidence level
 	level = 1 - alpha;
 
+	// convert provided input to integers
 	a = atoi(argv[1]);
 	b = atoi(argv[2]);
 	c = atoi(argv[3]);
 	d = atoi(argv[4]);
 
+	// test for making sure provided counts
+	// are non-negative
 	if (a < 0 || b < 0 || c < 0 || d < 0) {
 		printf("The integer inputs must all be positive.\n");
 		exit(1);
@@ -224,6 +229,7 @@ int main(int argc, char *argv[])
 	n_2plus = c + d;
 	n_plus2 = b + d;
 
+	// print fixed row and column totals
 	printf("Assuming fixed row and column totals...\n");
 	printf("Row totals: %d, %d\n", n_1plus, n_2plus);
 	printf("Column totals: %d, %d\n", n_plus1, n_plus2);
@@ -243,6 +249,10 @@ int main(int argc, char *argv[])
 	// interval
 
 	// note m_minus <= t <= m_plus
+
+	// set the number of coefficients
+	// for both the "upper" and "lower"
+	// polynomials
 
 	// t >= n_11 for upper
 	n_numer_coeff_upper = m_plus - n_11 + 1;
@@ -267,7 +277,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	// determine lower-bound confidence interval coefficients
+	// determine lower polynomial coefficients
 	for (i = 0; i < n_numer_coeff_lower; i++) {
 		numer_coeff_lower[i] = (double *)
 			calloc(2, sizeof(double));
@@ -284,7 +294,7 @@ int main(int argc, char *argv[])
 		numer_coeff_lower[i][1] = t;
 	}
 
-	// determine upper-bound confidence interval coefficients
+	// determine upper polynomial coefficients
 	for (i = 0; i < n_numer_coeff_upper; i++) {
 		numer_coeff_upper[i] = (double *)
 			calloc(2, sizeof(double));
@@ -303,7 +313,11 @@ int main(int argc, char *argv[])
 
 	/////// POLYNOMIAL DETERMINATION (DENOMINATOR) ///////
 
+	// set the number of coefficients and powers
+	// for the denominator
 	n_denom_coeff = m_plus - m_minus + 1;
+
+	// memory allocation for the denominator
 	denom_coeff = (double **)
 			calloc(n_denom_coeff, sizeof(double *));
 	if (!denom_coeff) {
@@ -320,6 +334,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	// populate with coefficients
 	for (i = 0; i < n_denom_coeff; i++) {
 		u = m_minus + i;
 		denom_coeff[i][0] = binom(n_1plus, u) *
@@ -336,14 +351,20 @@ int main(int argc, char *argv[])
 	if (v)
 		printf("****** BEGIN NEWTON-RAPHSON ******\n");
 
+	// get the estimate of theta from
+	// the "lower" polynomial
 	estimate_lower = newton_raphson(poly, poly_deriv, theta_0, alpha,
 				numer_coeff_lower, n_numer_coeff_lower,
 				denom_coeff, n_denom_coeff, v);
 
+	// get the estimate of theta from
+	// the "upper" polynomial
 	estimate_upper = newton_raphson(poly, poly_deriv, theta_0, alpha,
 				numer_coeff_upper, n_numer_coeff_upper,
 				denom_coeff, n_denom_coeff, v);
 
+	// get the lower and upper bounds
+	// of theta
 	lower_bound = min(estimate_lower, estimate_upper);
 	upper_bound = max(estimate_lower, estimate_upper);
 
