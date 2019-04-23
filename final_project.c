@@ -13,9 +13,9 @@ int main(int argc, char *argv[])
 	// than just the file name of the .exe and 4 numbers),
 	// return error
 	if (argc <= 6 || argc == 8 || argc >= 10) {
-		printf("ERROR: The input cannot be processed.");
+		printf("ERROR: The input cannot be processed. ");
 		printf("Use the template below.\n");
-		printf("REQUIRED:\n");
+		printf("REQUIRED (in the order provided below):\n");
 		printf(" a b c d  -------");
 		printf("four numeric inputs in row-major order\n");
 		printf("-theta e  -------");
