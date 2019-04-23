@@ -3,3 +3,4 @@ final_project
 *.gz
 *.log
 *.toc
+*.Rnw
