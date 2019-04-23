@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
 			exit(1);
 		}
 	}
-	
+
 	// check for use of the correct third switch
 	if (argc >= 10) {
 		if (strcmp(argv[9], "-alpha") != 0
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 			printf("ERROR: Your third switch ");
 			printf("after the matrix entries ");
 			printf("is not a valid switch. ");
-			printf("Use either -alpha or -theta "); 
+			printf("Use either -alpha or -theta ");
 			printf("or -v as switches.\n");
 			exit(1);
 		}
