@@ -16,32 +16,7 @@ int main(int argc, char *argv[])
 				argc >= 12) {
 		printf("ERROR: The input cannot be processed. ");
 		printf("Use the template below.\n");
-		printf("REQUIRED:\n");
-		printf(" a b c d  -------");
-		printf(" four numeric inputs in row-major order\n");
-		printf("                  ");
-		printf("These must precede all other inputs.\n");
-		printf("-theta e  -------");
-		printf(" e is an initial guess for the odds ratio\n\n");
-		printf("OPTIONAL:\n");
-		printf("-alpha f  -------");
-		printf(" f is a number to the nearest thousandth\n");
-		printf("                  ");
-		printf("with 0 < f < 1, with 1 - alpha\n");
-		printf("                  ");
-		printf("being the level of the confidence interval.\n");
-		printf("                  ");
-		printf("f is set to 0.05 by default.\n");
-		printf("-v g      -------");
-		printf(" g is either 0 or 1. Setting g to 1 shows\n");
-		printf("                  ");
-		printf("all Newton-Raphson output, including function\n");
-		printf("                  ");
-		printf("outputs, derivative outputs, and updated theta\n");
-		printf("                  ");
-		printf("values.\n");
-		printf("                  ");
-		printf("g is set to 0 by default.\n");
+		documentation();
 		exit(1);
 	}
 
@@ -52,6 +27,8 @@ int main(int argc, char *argv[])
 				!stringNumericCheck(argv[4])) {
 		printf("ERROR: Please use numeric inputs for ");
 		printf("the four matrix components.\n");
+		printf("Use the template below.\n");
+		documentation();
 		exit(1);
 
 	};
@@ -92,6 +69,7 @@ int main(int argc, char *argv[])
 			exit(1);
 		}
 
+		// make sure that no switches are being repeated
 		if ((strcmp(argv[5], "-alpha")
 			+ strcmp(argv[7], "-alpha") == 0) ||
 			(strcmp(argv[5], "-theta")
@@ -126,6 +104,7 @@ int main(int argc, char *argv[])
 			exit(1);
 		}
 
+		// make sure no switches are being repeated
 		if ((strcmp(argv[5], "-alpha")
 			+ strcmp(argv[7], "-alpha")
 				+ strcmp(argv[9], "-alpha") == 0) ||

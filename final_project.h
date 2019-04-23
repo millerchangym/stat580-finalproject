@@ -6,6 +6,7 @@
 #include <string.h>
 #include <ctype.h>
 
+void documentation();
 typedef double (*function)(double, double,
 			double **, int,
 				double **, int);

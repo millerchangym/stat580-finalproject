@@ -1,5 +1,35 @@
 #include "final_project.h"
 
+// documentation function
+void documentation() {
+	printf("REQUIRED:\n");
+	printf(" a b c d  -------");
+	printf(" four numeric inputs in row-major order\n");
+	printf("                  ");
+	printf("These must precede all other inputs.\n");
+	printf("-theta e  -------");
+	printf(" e is an initial guess for the odds ratio\n\n");
+	printf("OPTIONAL:\n");
+	printf("-alpha f  -------");
+	printf(" f is a number to the nearest thousandth\n");
+	printf("                  ");
+	printf("with 0 < f < 1, with 1 - alpha\n");
+	printf("                  ");
+	printf("being the level of the confidence interval.\n");
+	printf("                  ");
+	printf("f is set to 0.05 by default.\n");
+	printf("-v g      -------");
+	printf(" g is either 0 or 1. Setting g to 1 shows\n");
+	printf("                  ");
+	printf("all Newton-Raphson output, including function\n");
+	printf("                  ");
+	printf("outputs, derivative outputs, and updated theta\n");
+	printf("                  ");
+	printf("values.\n");
+	printf("                  ");
+	printf("g is set to 0 by default.\n");
+}
+
 // check if string has only numeric values or decimal places
 int stringNumericCheck(char *str)
 {
