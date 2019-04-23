@@ -13,13 +13,20 @@ int main(int argc, char *argv[])
 	// than just the file name of the .exe and 4 numbers),
 	// return error
 	if (argc <= 6 || argc == 8 || argc >= 10) {
-		printf("Please input a 2-by-2 matrix of counts in the form ");
-		printf("a b c d in row major order,\n");
-		printf("with required switch -theta e ");
-		printf("(e an initial guess for the odds ratios)\n");
-		printf("and optional switch -alpha f (f between 0 and 1 ");
-		printf("inclusive.)\n");
-		printf("Note that f is set to 0.05 by default.\n");
+		printf("ERROR: The input cannot be processed.");
+		printf("Use the template below.\n");
+		printf("REQUIRED:\n");
+		printf(" a b c d  -------");
+		printf("four numeric inputs in row-major order\n");
+		printf("-theta e  -------");
+		printf("e is an initial guess for the odds ratio\n\n");
+		printf("OPTIONAL:\n");
+		printf("-alpha f  -------");
+		printf(" f is a number with 0 < f < 1, with 1-alpha\n");
+		printf("                  ");
+		printf("being the level of the confidence interval.\n");
+		printf("                  ");
+		printf("f is set to 0.05 by default.\n");
 		exit(1);
 	}
 
@@ -28,7 +35,7 @@ int main(int argc, char *argv[])
 		!stringNumericCheck(argv[2]) ||
 			!stringNumericCheck(argv[3]) ||
 				!stringNumericCheck(argv[4])) {
-		printf("Please use numeric inputs for ");
+		printf("ERROR: Please use numeric inputs for ");
 		printf("the four matrix components.\n");
 		exit(1);
 
@@ -36,8 +43,10 @@ int main(int argc, char *argv[])
 
 	if (argc >= 6) {
 		// check for use of the correct switch after the numeric counts
-		if (strcmp(argv[5], "-alpha") != 0 && strcmp(argv[5], "-theta") != 0) {
-			printf("Your first switch after the matrix entries ");
+		if (strcmp(argv[5], "-alpha") != 0
+				&& strcmp(argv[5], "-theta") != 0) {
+			printf("ERROR: Your first switch ");
+			printf("after the matrix entries ");
 			printf("is not a valid switch. ");
 			printf("Use either -alpha or -theta as switches.\n");
 			exit(1);
@@ -47,15 +56,18 @@ int main(int argc, char *argv[])
 	// check for a numeric 7th component, after the first switch
 	if (argc >= 7) {
 		if (!stringNumericCheck(argv[6])) {
-			printf("Please use a numeric value for the first switch.\n");
+			printf("ERROR: Please use a numeric ");
+			printf("value for the first switch.\n");
 			exit(1);
 		}
 	}
 
 	// check for use of the correct second switch
 	if (argc >= 8) {
-		if (strcmp(argv[7], "-alpha") != 0 && strcmp(argv[7], "-theta") != 0) {
-			printf("Your second switch after the matrix entries ");
+		if (strcmp(argv[7], "-alpha") != 0
+				&& strcmp(argv[7], "-theta") != 0) {
+			printf("ERROR: Your second switch ");
+			printf("after the matrix entries ");
 			printf("is not a valid switch. ");
 			printf("Use either -alpha or -theta as switches.\n");
 			exit(1);
@@ -65,7 +77,8 @@ int main(int argc, char *argv[])
 			strcmp(argv[7], "-alpha") == 0) ||
 				(strcmp(argv[5], "-theta") == 0 &&
 					strcmp(argv[7], "-theta") == 0)) {
-			printf("You cannot have two of the same switch.\n");
+			printf("ERROR: You cannot have two ");
+			printf("of the same switch.\n");
 			exit(1);
 		}
 	}
@@ -73,7 +86,8 @@ int main(int argc, char *argv[])
 	// check for numeric value after second switch
 	if (argc >= 9) {
 		if (!stringNumericCheck(argv[8])) {
-			printf("Please use a numeric value for the second switch.\n");
+			printf("ERROR: Please use a numeric ");
+			printf("value for the second switch.\n");
 			exit(1);
 		}
 	}
@@ -97,6 +111,7 @@ int main(int argc, char *argv[])
 	int i;
 	int t, u;
 	function poly, poly_deriv;
+
 	long double estimate;
 
 	// Use alpha = 5% by default
