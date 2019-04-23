@@ -62,26 +62,12 @@ long double generate_poly(long double theta, double alpha,
 	denom_val = 0;
 
 	// numerator coefficients and powers
-	for (i = 0; i < numer_rows; i++) {
-	//	printf("Numerator row %d :", i);
-	//	printf("Coefficient: %lu Power: %lu ", numer[i][0], numer[i][1]);
+	for (i = 0; i < numer_rows; i++)
 		num_val += numer[i][0] * pow(theta, numer[i][1]);
-	//	printf("Theta: %f ", theta);
-	//	printf("Theta to the power: %f ", pow(theta, numer[i][1]));
-	//	printf("Numerical addition: %f ", numer[i][0] * pow(theta, numer[i][1]));
-	//	printf("Numerator value: %f \n", num_val);
-	}
-	//printf("Numerator sum: %f \n", num_val);
 
 	// denominator coefficients and powers
-	for (i = 0; i < denom_rows; i++) {
-	//	printf("Coefficient: %lu Power: %lu ", denom[i][0], denom[i][1]);
+	for (i = 0; i < denom_rows; i++)
 		denom_val += denom[i][0] * pow(theta, denom[i][1]);
-	//	printf("Theta: %f ", theta);
-        //       printf("Theta to the power: %f ", pow(theta, denom[i][1]));
-        //        printf("Numerical value: %f \n", denom[i][0] * pow(theta, denom[i][1]));
-	}
-	//printf("Denominator sum: %f \n", denom_val);
 
 	out = num_val - (alpha/2) * denom_val;
 
@@ -101,37 +87,21 @@ long double generate_poly_deriv(long double theta, double alpha,
 
 	// numerator derivative coefficients and powers
 	for (i = 0; i < numer_rows; i++) {
-	//	printf("Derivative numerator row %d : ", i);
-	//	printf("Coefficient: %lu Power: %lu ", numer[i][0] * numer[i][1], numer[i][1] - 1);
 		if (numer[i][1] == 0)
 			num_val = num_val;
 		else
 			num_val += numer[i][0] * numer[i][1] *
 					pow(theta, numer[i][1] - 1);
-	//	printf("Theta: %f ", theta);
-         //       printf("Theta to the power: %f ", pow(theta, numer[i][1] - 1));
-        //	printf("Numerical addition: %f \n", numer[i][0] * numer[i][1] * pow(theta, numer[i][1] - 1));
-	//	printf("Numerical value: %Lf \n", num_val);
 	}
-	//printf("Numerator sum: %f \n", num_val);
 	
-	// printf("Denom_rows: %d\n", denom_rows);
-	/*for (i = 0; i < denom_rows; i++) {
-		printf("%ld %ld\n", denom[i][0], denom[i][1]);
-	}*/
 	// denominator derivative coefficients and powers
 	for (i = 0; i < denom_rows; i++) {
-	//	printf("Derivative denominator row %d :", i);
-	//	printf("Coefficient: %lu Power: %lu ", denom[i][0] * denom[i][1], denom[i][1] - 1);
 		if (denom[i][1] == 0)
 			denom_val = denom_val;
 		else
 			denom_val += denom[i][0] * denom[i][1] *
 				pow(theta, denom[i][1] - 1);
-	//	printf("Numerical addition: %f \n", denom[i][0] * denom[i][1] * pow(theta, denom[i][1] - 1));
-	//	printf("Numerical value: %Lf \n", denom_val);
 	}
-	//printf("Denominator sum: %f \n", denom_val);
 
 	out = num_val - (alpha/2) * denom_val;
 
