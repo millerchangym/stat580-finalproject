@@ -12,14 +12,19 @@ int main(int argc, char *argv[])
 	// if the number of parameters is less than 5 (i.e., less
 	// than just the file name of the .exe and 4 numbers),
 	// return error
-	if (argc <= 6 || argc == 8 || argc >= 10) {
+	if (argc <= 6 ||
+		argc == 8 ||
+			argc == 10 ||
+				argc >= 12) {
 		printf("ERROR: The input cannot be processed. ");
 		printf("Use the template below.\n");
-		printf("REQUIRED (in the order provided below):\n");
+		printf("REQUIRED:\n");
 		printf(" a b c d  -------");
-		printf("four numeric inputs in row-major order\n");
+		printf(" four numeric inputs in row-major order\n");
+		printf("                  ");
+		printf("These must precede all other inputs.\n");
 		printf("-theta e  -------");
-		printf("e is an initial guess for the odds ratio\n\n");
+		printf(" e is an initial guess for the odds ratio\n\n");
 		printf("OPTIONAL:\n");
 		printf("-alpha f  -------");
 		printf(" f is a number with 0 < f < 1, with 1-alpha\n");
@@ -27,6 +32,16 @@ int main(int argc, char *argv[])
 		printf("being the level of the confidence interval.\n");
 		printf("                  ");
 		printf("f is set to 0.05 by default.\n");
+		printf("-v g      -------");
+		printf(" g is either 0 or 1. Setting g to 1 shows\n");
+		printf("                  ");
+		printf("all Newton-Raphson output, including function\n");
+		printf("                  ");
+		printf("outputs, derivative outputs, and updated theta\n");
+		printf("                  ");
+		printf("values.\n");
+		printf("                  ");
+		printf("g is set to 0 by default.\n");
 		exit(1);
 	}
 
@@ -44,11 +59,13 @@ int main(int argc, char *argv[])
 	if (argc >= 6) {
 		// check for use of the correct switch after the numeric counts
 		if (strcmp(argv[5], "-alpha") != 0
-				&& strcmp(argv[5], "-theta") != 0) {
+				&& strcmp(argv[5], "-theta") != 0
+					&& strcmp(argv[5], "-v") != 0) {
 			printf("ERROR: Your first switch ");
 			printf("after the matrix entries ");
 			printf("is not a valid switch. ");
-			printf("Use either -alpha or -theta as switches.\n");
+			printf("Use either -alpha or -theta ");
+			printf("or -v as switches.\n");
 			exit(1);
 		}
 	}
@@ -65,20 +82,24 @@ int main(int argc, char *argv[])
 	// check for use of the correct second switch
 	if (argc >= 8) {
 		if (strcmp(argv[7], "-alpha") != 0
-				&& strcmp(argv[7], "-theta") != 0) {
+				&& strcmp(argv[7], "-theta") != 0
+					&& strcmp(argv[7], "-v") != 0) {
 			printf("ERROR: Your second switch ");
 			printf("after the matrix entries ");
 			printf("is not a valid switch. ");
-			printf("Use either -alpha or -theta as switches.\n");
+			printf("Use either -alpha or -theta ");
+			printf("or -v as switches.\n");
 			exit(1);
 		}
 
-		if ((strcmp(argv[5], "-alpha") == 0 &&
-			strcmp(argv[7], "-alpha") == 0) ||
-				(strcmp(argv[5], "-theta") == 0 &&
-					strcmp(argv[7], "-theta") == 0)) {
-			printf("ERROR: You cannot have two ");
-			printf("of the same switch.\n");
+		if ((strcmp(argv[5], "-alpha")
+			+ strcmp(argv[7], "-alpha") == 0) ||
+			(strcmp(argv[5], "-theta")
+				+ strcmp(argv[7], "-theta") == 0) ||
+			(strcmp(argv[5], "-v")
+				+ strcmp(argv[7], "-v") == 0)) {
+			printf("ERROR: You cannot have more ");
+			printf("than one of the same switch.\n");
 			exit(1);
 		}
 	}
@@ -88,6 +109,43 @@ int main(int argc, char *argv[])
 		if (!stringNumericCheck(argv[8])) {
 			printf("ERROR: Please use a numeric ");
 			printf("value for the second switch.\n");
+			exit(1);
+		}
+	}
+	
+	// check for use of the correct third switch
+	if (argc >= 10) {
+		if (strcmp(argv[9], "-alpha") != 0
+				&& strcmp(argv[9], "-theta") != 0
+					&& strcmp(argv[9], "-v") != 0) {
+			printf("ERROR: Your third switch ");
+			printf("after the matrix entries ");
+			printf("is not a valid switch. ");
+			printf("Use either -alpha or -theta "); 
+			printf("or -v as switches.\n");
+			exit(1);
+		}
+
+		if ((strcmp(argv[5], "-alpha")
+			+ strcmp(argv[7], "-alpha")
+				+ strcmp(argv[9], "-alpha") == 0) ||
+			(strcmp(argv[5], "-theta")
+				+ strcmp(argv[7], "-theta")
+					+ strcmp(argv[9], "-theta") == 0) ||
+			(strcmp(argv[5], "-v")
+				+ strcmp(argv[7], "-v")
+					+ strcmp(argv[9], "-v") == 0)) {
+			printf("ERROR: You cannot have more ");
+			printf("than one of the same switch.\n");
+			exit(1);
+		}
+	}
+
+	// check for numeric value after third switch
+	if (argc >= 11) {
+		if (!stringNumericCheck(argv[10])) {
+			printf("ERROR: Please use a numeric ");
+			printf("value for the third switch.\n");
 			exit(1);
 		}
 	}
@@ -111,6 +169,7 @@ int main(int argc, char *argv[])
 	int i;
 	int t, u;
 	function poly, poly_deriv;
+	int v;
 
 	long double estimate;
 
@@ -120,6 +179,17 @@ int main(int argc, char *argv[])
 		alpha = atof(argv[6]);
 	if (argc >= 9 && strcmp(argv[7], "-alpha") == 0)
 		alpha = atof(argv[8]);
+	if (argc >= 11 && strcmp(argv[9], "-alpha") == 0)
+		alpha = atof(argv[10]);
+
+	// Use v = 0 by default
+	v = 0;
+	if (argc >= 7 && strcmp(argv[5], "-v") == 0)
+		v = atoi(argv[6]);
+	if (argc >= 9 && strcmp(argv[7], "-v") == 0)
+		v = atoi(argv[8]);
+	if (argc >= 11 && strcmp(argv[9], "-v") == 0)
+		v = atoi(argv[10]);
 
 	// use nonsensical value for theta_0 by default
 	// for error checking
@@ -128,6 +198,8 @@ int main(int argc, char *argv[])
 		theta_0 = atof(argv[6]);
 	if (argc >= 9 && strcmp(argv[7], "-theta") == 0)
 		theta_0 = atof(argv[8]);
+	if (argc >= 11 && strcmp(argv[9], "-theta") == 0)
+		theta_0 = atof(argv[10]);
 	if (theta_0 == -9999) {
 		printf("No value for theta has been provided. ");
 		printf("Provide a value for theta.\n");
@@ -273,10 +345,11 @@ int main(int argc, char *argv[])
 	poly_deriv = generate_poly_deriv;
 
 	//// IMPLEMENT NEWTON-RAPHSON FOR LOWER BOUND ////
-	printf("****** BEGIN NEWTON-RAPHSON ******\n");
+	if (v)
+		printf("****** BEGIN NEWTON-RAPHSON ******\n");
 	estimate = newton_raphson(poly, poly_deriv, theta_0, alpha,
 			numer_coeff_upper, n_numer_coeff_upper,
-			denom_coeff, n_denom_coeff);
+			denom_coeff, n_denom_coeff, v);
 
 	////////// FREE MEMORY SPACE //////////
 
