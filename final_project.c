@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
 	// table, in row-major order
 	int a, b, c, d;
 	int n_11;
-	int n_1plus, n_plus1;
+	int n_1plus, n_plus1, n_2plus, n_plus2;
 	int n;
 	int m_plus, m_minus;
 	double **numer_coeff_upper, **numer_coeff_lower;
@@ -230,14 +230,25 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
+	// Print input m atrix
+	printf("Input matrix:\n");
+	printf("%d %d\n", a, b);
+	printf("%d %d\n", c, d);
+	printf("\n");
+
 	// necessary variables
 	n_11 = a;
 
 	// Row and column totals
 	n_1plus = a + b;
 	n_plus1 = a + c;
+	n_2plus = c + d;
+	n_plus2 = b + d;
 
 	printf("Assuming fixed row and column totals...\n");
+	printf("Row totals: %d, %d\n", n_1plus, n_2plus);
+	printf("Column totals: %d, %d\n", n_plus1, n_plus2);
+	printf("\n");
 
 	n = a + b + c + d;
 
@@ -359,7 +370,7 @@ int main(int argc, char *argv[])
 
 	//// PRINT THE CONFIDENCE INTERVAL ////
 
-	printf("The %.1f confidence interval ", level * 100);
+	printf("The %.1f%% confidence interval ", level * 100);
 	printf("for the odds ratio is ");
 	printf("[%.3f, %.3f]\n", lower_bound, upper_bound);
 
