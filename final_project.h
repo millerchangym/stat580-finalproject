@@ -20,7 +20,7 @@ long double generate_poly_deriv(long double theta, double alpha,
 				unsigned long **numer, int numer_rows,
 					unsigned long **denom, int denom_rows);
 long double newton_raphson(function f, function f_prime,
-			double theta_0, double alpha, 
+			double theta_0, double alpha,
 				unsigned long **numer, int numer_rows,
 					unsigned long **denom, int denom_rows);
 
