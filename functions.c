@@ -108,6 +108,7 @@ double newton_raphson(function f, function f_prime,
 						unsigned long **denom, int denom_rows) {
 
 	double threshold, theta_next, theta_prev;
+	double func_value, deriv_value;
 	int n_iter, n_iter_MAX;
 	int stop;
 
@@ -119,11 +120,24 @@ double newton_raphson(function f, function f_prime,
 	do {
 		n_iter++;
 		printf("Iteration %d ", n_iter);
-		theta_next = theta_prev -
-			f(theta_prev, alpha, numer, numer_rows,
-				denom, denom_rows) /
-			f_prime(theta_prev, alpha, numer, numer_rows,
+		func_value = f(theta_prev, alpha, numer, numer_rows,
 				denom, denom_rows);
+		deriv_value = f_prime(theta_prev, alpha, numer, numer_rows,
+				denom, denom_rows);
+		printf("function value: %f ", func_value);
+		printf("derivative value: %f ", deriv_value);
+		if (deriv_value == 0) {
+			printf("ZERO DERIVATIVE ERROR! STOPPING...\n");
+			exit(1);
+		}
+
+		stop = (
+			fabs(theta_next - theta_prev) <= threshold ||
+				n_iter >= n_iter_MAX ||
+					deriv_value == 0
+			);
+						
+		theta_next = theta_prev - (func_value/deriv_value);
 		printf("New value: %f\n", theta_next);
 		// fabs is the floating-point absolute value
 		stop = (fabs(theta_next - theta_prev) <= threshold ||
@@ -133,8 +147,6 @@ double newton_raphson(function f, function f_prime,
 			theta_prev = theta_next;
 		else
 			printf("STOPPING...\n");
-		if (isnan(theta_next))
-			printf("NO SOLUTION FOR THETA...\n");
 	} while (!stop);
 
 	return theta_next;

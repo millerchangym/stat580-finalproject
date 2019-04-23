@@ -208,6 +208,7 @@ int main(int argc, char *argv[])
 		numer_coeff_lower[i][0] = binom(n_1plus, t) *
 						binom(n - n_1plus, n_plus1 - t);
 		numer_coeff_lower[i][1] = t;
+		printf("%dth Coefficient: %lu Power: %lu\n", i, numer_coeff_lower[i][0], numer_coeff_lower[i][1]); 
 	}
 
 	// determine upper-bound confidence interval coefficients
