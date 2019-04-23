@@ -20,8 +20,8 @@ int stringNumericCheck(char *str) {
 }
 
 // https://en.wikipedia.org/wiki/Binomial_coefficient#Binomial_coefficient_in_programming_languages 
-unsigned long binom(int n, int k) {
-	unsigned long c;
+double binom(int n, int k) {
+	double c;
 	int i = 0;
 
 	if (k < 0 || k > n)
@@ -52,22 +52,26 @@ int min(int a, int b) {
 // generate the polynomial of interest by taking 
 // the numerator coefficients and powers and
 // the denominator coefficients and powers
-long double generate_poly(long double theta, double alpha,
-			unsigned long **numer, int numer_rows,
-				unsigned long **denom, int denom_rows) {
+double generate_poly(double theta, double alpha,
+			double **numer, int numer_rows,
+				double **denom, int denom_rows) {
 	int i;
-	long double num_val, denom_val, out;
+	double num_val, denom_val, out;
 
 	num_val = 0;
 	denom_val = 0;
 
 	// numerator coefficients and powers
-	for (i = 0; i < numer_rows; i++)
+	for (i = 0; i < numer_rows; i++) {
+//		printf("Numerator coefficient: %lu Power: %lu\n", numer[i][0], numer[i][1]);
 		num_val += numer[i][0] * pow(theta, numer[i][1]);
+	}
 
 	// denominator coefficients and powers
-	for (i = 0; i < denom_rows; i++)
+	for (i = 0; i < denom_rows; i++) {
+//		printf("Denominator coefficient: %lu Power: %lu\n", denom[i][0], denom[i][1]);
 		denom_val += denom[i][0] * pow(theta, denom[i][1]);
+	}
 
 	out = num_val - (alpha/2) * denom_val;
 
@@ -75,12 +79,12 @@ long double generate_poly(long double theta, double alpha,
 }
 
 // derivative of the generated polynomial, for Newton-Raphson
-long double generate_poly_deriv(long double theta, double alpha,
-				unsigned long **numer, int numer_rows,
-					unsigned long **denom, int denom_rows) {
+double generate_poly_deriv(double theta, double alpha,
+				double **numer, int numer_rows,
+					double **denom, int denom_rows) {
 
 	int i;
-	long double num_val, denom_val, out;
+	double num_val, denom_val, out;
 
 	num_val = 0;
 	denom_val = 0;
@@ -109,16 +113,16 @@ long double generate_poly_deriv(long double theta, double alpha,
 }
 
 // implement Newton-Raphson
-long double newton_raphson(function f, function f_prime, 
+double newton_raphson(function f, function f_prime, 
 			double theta_0,
 				double alpha,
-					unsigned long **numer, int numer_rows,
-						unsigned long **denom, int denom_rows,
+					double **numer, int numer_rows,
+						double **denom, int denom_rows,
 							int verbose) {
 
 	double threshold; 
-	long double theta_next, theta_prev;
-	long double func_value, deriv_value;
+	double theta_next, theta_prev;
+	double func_value, deriv_value;
 	int n_iter, n_iter_MAX;
 	int stop;
 
@@ -139,8 +143,8 @@ long double newton_raphson(function f, function f_prime,
 		deriv_value = f_prime(theta_prev, alpha, numer, numer_rows,
 				denom, denom_rows);
 		if (verbose) {
-			printf("function value: %Lf ", func_value);
-			printf("derivative value: %Lf ", deriv_value);
+			printf("function value: %f ", func_value);
+			printf("derivative value: %f ", deriv_value);
 		}
 		if (deriv_value == 0) {
 			printf("ZERO DERIVATIVE ERROR! STOPPING...\n");
@@ -156,7 +160,7 @@ long double newton_raphson(function f, function f_prime,
 		theta_next = theta_prev - (func_value/deriv_value);
 
 		if (verbose)
-			printf("New theta: %Lf\n", theta_next);
+			printf("New theta: %f\n", theta_next);
 
 		// fabs is the floating-point absolute value
 		stop = (fabs(theta_next - theta_prev) <= threshold ||

@@ -6,23 +6,23 @@
 #include <string.h>
 #include <ctype.h>
 
-typedef long double (*function)(long double, double,
-			unsigned long **, int,
-				unsigned long **, int);
+typedef double (*function)(double, double,
+			double **, int,
+				double **, int);
 int stringNumericCheck(char *str);
 int max(int a, int b);
 int min(int a, int b);
-unsigned long binom(int n, int k);
-long double generate_poly(long double theta, double alpha,
-			unsigned long **numer, int numer_rows,
-				unsigned long **denom, int denom_rows);
-long double generate_poly_deriv(long double theta, double alpha,
-				unsigned long **numer, int numer_rows,
-					unsigned long **denom, int denom_rows);
-long double newton_raphson(function f, function f_prime,
+double binom(int n, int k);
+double generate_poly(double theta, double alpha,
+			double **numer, int numer_rows,
+				double **denom, int denom_rows);
+double generate_poly_deriv(double theta, double alpha,
+				double **numer, int numer_rows,
+					double **denom, int denom_rows);
+double newton_raphson(function f, function f_prime,
 			double theta_0, double alpha,
-				unsigned long **numer, int numer_rows,
-					unsigned long **denom, int denom_rows,
+				double **numer, int numer_rows,
+					double **denom, int denom_rows,
 						int verbose);
 
 #endif

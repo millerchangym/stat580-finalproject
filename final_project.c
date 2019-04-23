@@ -162,8 +162,8 @@ int main(int argc, char *argv[])
 	int n_1plus, n_2plus, n_plus1, n_plus2;
 	int n;
 	int m_plus, m_minus;
-	unsigned long **numer_coeff_upper, **numer_coeff_lower;
-	unsigned long **denom_coeff;
+	double **numer_coeff_upper, **numer_coeff_lower;
+	double **denom_coeff;
 	int n_numer_coeff_upper, n_numer_coeff_lower;
 	int n_denom_coeff;
 	int i;
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
 	function poly, poly_deriv;
 	int v;
 
-	long double estimate;
+	double estimate_lower, estimate_upper;
 
 	// Use alpha = 5% by default
 	alpha = 0.05;
@@ -262,17 +262,17 @@ int main(int argc, char *argv[])
 	n_numer_coeff_lower = n_11 - m_minus + 1;
 
 	// memory allocation of numerator coefficients
-	numer_coeff_lower = (unsigned long **)
+	numer_coeff_lower = (double **)
 				calloc(n_numer_coeff_lower,
-					sizeof(unsigned long *));
+					sizeof(double *));
 	if (!numer_coeff_lower) {
 		printf("Calloc for numer_coeff_lower failed !\n");
 		exit(1);
 	}
 
-	numer_coeff_upper = (unsigned long **)
+	numer_coeff_upper = (double **)
 				calloc(n_numer_coeff_upper,
-					sizeof(unsigned long *));
+					sizeof(double *));
 
 	if (!numer_coeff_upper) {
 		printf("Calloc for numer_coeff_upper failed !\n");
@@ -281,8 +281,8 @@ int main(int argc, char *argv[])
 
 	// determine lower-bound confidence interval coefficients
 	for (i = 0; i < n_numer_coeff_lower; i++) {
-		numer_coeff_lower[i] = (unsigned long *)
-			calloc(2, sizeof(unsigned long));
+		numer_coeff_lower[i] = (double *)
+			calloc(2, sizeof(double));
 		if (!numer_coeff_lower[i]) {
 			printf("Calloc for numer_coeff_lower[i] failed !\n");
 			exit(1);
@@ -298,8 +298,8 @@ int main(int argc, char *argv[])
 
 	// determine upper-bound confidence interval coefficients
 	for (i = 0; i < n_numer_coeff_upper; i++) {
-		numer_coeff_upper[i] = (unsigned long *)
-			calloc(2, sizeof(unsigned long));
+		numer_coeff_upper[i] = (double *)
+			calloc(2, sizeof(double));
 		if (!numer_coeff_upper[i]) {
 			printf("Calloc for numer_coeff_upper[i] failed !\n");
 			exit(1);
@@ -316,16 +316,16 @@ int main(int argc, char *argv[])
 	/////// POLYNOMIAL DETERMINATION (DENOMINATOR) ///////
 
 	n_denom_coeff = m_plus - m_minus + 1;
-	denom_coeff = (unsigned long **)
-			calloc(n_denom_coeff, sizeof(unsigned long *));
+	denom_coeff = (double **)
+			calloc(n_denom_coeff, sizeof(double *));
 	if (!denom_coeff) {
 		printf("Calloc for denom_coeff failed !\n");
 		exit(1);
 	}
 
 	for (i = 0; i < n_denom_coeff; i++) {
-		denom_coeff[i] = (unsigned long *)
-			calloc(2, sizeof(unsigned long));
+		denom_coeff[i] = (double *)
+			calloc(2, sizeof(double));
 		if (!denom_coeff[i]) {
 			printf("Calloc for denom_coeff[i] failed !\n");
 			exit(1);
@@ -344,13 +344,16 @@ int main(int argc, char *argv[])
 	poly = generate_poly;
 	poly_deriv = generate_poly_deriv;
 
-	//// IMPLEMENT NEWTON-RAPHSON FOR LOWER BOUND ////
+	//// IMPLEMENT NEWTON-RAPHSON ////
 	if (v)
 		printf("****** BEGIN NEWTON-RAPHSON ******\n");
 
-	estimate = newton_raphson(poly, poly_deriv, theta_0, alpha,
-			numer_coeff_upper, n_numer_coeff_upper,
-			denom_coeff, n_denom_coeff, v);
+	estimate_lower = newton_raphson(poly, poly_deriv, theta_0, alpha,
+				numer_coeff_lower, n_numer_coeff_lower,
+				denom_coeff, n_denom_coeff, v);	
+	estimate_upper = newton_raphson(poly, poly_deriv, theta_0, alpha,
+				numer_coeff_upper, n_numer_coeff_upper,
+				denom_coeff, n_denom_coeff, v);
 
 	////////// FREE MEMORY SPACE //////////
 
