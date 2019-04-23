@@ -42,43 +42,42 @@ int main(int argc, char *argv[])
 			printf("Use either -alpha or -theta as switches.\n");
 			exit(1);
 		}
+	}
 
-		// check for numeric 7th component, after the switch
-		if (argc >= 7) {
-			if (!stringNumericCheck(argv[6])) {
-				printf("Please use a numeric value for the first switch.\n");
-				exit(1);
-			}
+	// check for a numeric 7th component, after the first switch
+	if (argc >= 7) {
+		if (!stringNumericCheck(argv[6])) {
+			printf("Please use a numeric value for the first switch.\n");
+			exit(1);
+		}
+	}
+
+	// check for use of the correct second switch
+	if (argc >= 8) {
+		if (strcmp(argv[7], "-alpha") != 0 && strcmp(argv[7], "-theta") != 0) {
+			printf("Your second switch after the matrix entries ");
+			printf("is not a valid switch. ");
+			printf("Use either -alpha or -theta as switches.\n");
+			exit(1);
 		}
 
-		// check for use of the correct second switch
-		if (argc >= 8) {
-			if (strcmp(argv[7], "-alpha") != 0 && strcmp(argv[7], "-theta") != 0) {
-				printf("Your second switch after the matrix entries ");
-				printf("is not a valid switch. ");
-				printf("Use either -alpha or -theta as switches.\n");
-				exit(1);
-			}
-
-			if ((strcmp(argv[5], "-alpha") == 0 &&
-				strcmp(argv[7], "-alpha") == 0) ||
+		if ((strcmp(argv[5], "-alpha") == 0 &&
+			strcmp(argv[7], "-alpha") == 0) ||
 				(strcmp(argv[5], "-theta") == 0 &&
 					strcmp(argv[7], "-theta") == 0)) {
-				printf("You cannot have two of the same switch.\n");
-				exit(1);
-			}
-
+			printf("You cannot have two of the same switch.\n");
+			exit(1);
 		}
-
-		// check for numeric 9th component, after the second switch
-		if (argc >= 9) {
-			if (!stringNumericCheck(argv[8])) {
-				printf("Please use a numeric value for the second switch.\n");
-				exit(1);
-			}
-		}
-
 	}
+
+	// check for numeric value after second switch
+	if (argc >= 9) {
+		if (!stringNumericCheck(argv[8])) {
+			printf("Please use a numeric value for the second switch.\n");
+			exit(1);
+		}
+	}
+
 
 	/////////////////// VARIABLE DECLARATION ///////////////////
 
