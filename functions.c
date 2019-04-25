@@ -2,7 +2,8 @@
 
 // documentation function
 // simply prints documentation
-void documentation(void) {
+void documentation(void)
+{
 	printf("REQUIRED:\n");
 	printf(" a b c d  -------");
 	printf(" four numeric inputs in row-major order\n");
