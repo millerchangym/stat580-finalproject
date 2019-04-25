@@ -14,7 +14,8 @@ and should be run as
 ```
 where a, b, c, and d are integers, and e is a double. There are also
 optional switches -v (1 for verbose, 0 otherwise; 0 default), and
--alpha (for which 1 - alpha is the confidence level).
+-alpha (for which 1 - alpha is the confidence level) which must
+be to the nearest thousandth.
 
 ## Examples
 
